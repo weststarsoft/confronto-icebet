@@ -64,7 +64,29 @@ const LEAGUES = {
     { name: "Sevilla",         logo: "logos/sevilla.png" },
     { name: "Valencia",        logo: "logos/Valencia.png" },
     { name: "Villarreal",      logo: "logos/villarreal.png" },
-  ]
+  ],
+  "Serie A": [
+    { name: "AC Milan",    logo: "logos/ac-milan.png" },
+    { name: "Atalanta",    logo: "logos/atalanta.png" },
+    { name: "Bologna",     logo: "logos/bologna.png" },
+    { name: "Cagliari",    logo: "logos/cagliari.png" },
+    { name: "Como",        logo: "logos/como1907.png" },
+    { name: "Cremonese",   logo: "logos/cremonese.png" },
+    { name: "Fiorentina",  logo: "logos/fiorentina.png" },
+    { name: "Genoa",       logo: "logos/genoa.png" },
+    { name: "Inter Milan", logo: "logos/inter-milan.png" },
+    { name: "Juventus",    logo: "logos/juventus.png" },
+    { name: "Lazio",       logo: "logos/lazio.png" },
+    { name: "Lecce",       logo: "logos/lecce.png" },
+    { name: "Napoli",      logo: "logos/napoli.png" },
+    { name: "Parma",       logo: "logos/parma.png" },
+    { name: "Pisa",        logo: "logos/pisa.png" },
+    { name: "Roma",        logo: "logos/roma.png" },
+    { name: "Sassuolo",    logo: "logos/sassuolo.png" },
+    { name: "Torino",      logo: "logos/torino.png" },
+    { name: "Udinese",     logo: "logos/udinese.png" },
+    { name: "Verona",      logo: "logos/verona.png" },
+  ],
 };
 
 const LEAGUE_LOGOS = {
