@@ -71,6 +71,7 @@ const LEAGUE_LOGOS = {
   "Brasileirão":    "logos/brasileirao.png",
   "Premier League": "logos/premier-league.png",
   "La Liga":        "logos/laliga.png",
+  "Serie A":        "logos/seriea.png",
 };
 
 let currentLeague = "Brasileirão";
