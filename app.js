@@ -189,20 +189,30 @@ async function generateImage() {
     loadImage(selected.team2.logo)
   ]);
 
-  const logoSize = 70;
-  const y     = 98;
-  const x1    = 302;
-  const vsGap = 32;
-  const x2    = x1 + logoSize + vsGap;
+  const maxSize = 70;
+  const y       = 98;
+  const x1      = 302;
+  const vsGap   = 32;
 
-  if (img1) ctx.drawImage(img1, x1, y, logoSize, logoSize);
-  if (img2) ctx.drawImage(img2, x2, y, logoSize, logoSize);
+  function fitLogo(img, x) {
+    if (!img) return;
+    const ratio = img.naturalWidth / img.naturalHeight;
+    let w, h;
+    if (ratio >= 1) { w = maxSize; h = maxSize / ratio; }
+    else            { h = maxSize; w = maxSize * ratio; }
+    const offsetX = (maxSize - w) / 2;
+    const offsetY = (maxSize - h) / 2;
+    ctx.drawImage(img, x + offsetX, y + offsetY, w, h);
+  }
+
+  fitLogo(img1, x1);
+  fitLogo(img2, x1 + maxSize + vsGap);
 
   ctx.font         = "bold 13px Arial";
   ctx.fillStyle    = "#111111";
   ctx.textAlign    = "center";
   ctx.textBaseline = "middle";
-  ctx.fillText("vs", x1 + logoSize + vsGap / 2, y + logoSize / 2);
+  ctx.fillText("vs", x1 + maxSize + vsGap / 2, y + maxSize / 2);
 
   document.getElementById("preview").style.display = "block";
 }
