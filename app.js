@@ -72,9 +72,11 @@ async function generateImage() {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
 
-  // Dimensões exatas medidas no Photoshop
+  // Forçar tamanho exato ignorando pixel ratio da tela
   canvas.width  = 512;
   canvas.height = 368;
+  canvas.style.width  = "512px";
+  canvas.style.height = "368px";
 
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -105,9 +107,19 @@ async function generateImage() {
 
 function downloadImage() {
   const canvas = document.getElementById("canvas");
+
+  // Cria um canvas auxiliar com o tamanho exato 512x368
+  const exportCanvas = document.createElement("canvas");
+  exportCanvas.width  = 512;
+  exportCanvas.height = 368;
+  const exportCtx = exportCanvas.getContext("2d");
+
+  // Escala o conteúdo do canvas original para caber exatamente em 512x368
+  exportCtx.drawImage(canvas, 0, 0, 512, 368);
+
   const link = document.createElement("a");
   link.download = `${selected.team1.name}_vs_${selected.team2.name}.png`;
-  link.href = canvas.toDataURL("image/png");
+  link.href = exportCanvas.toDataURL("image/png");
   link.click();
 }
 
