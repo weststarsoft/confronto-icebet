@@ -128,26 +128,6 @@ const LEAGUES = {
     { name: "Toulouse",          logo: "logos/toulouse.png" },
   ],
 };
-    { name: "Augsburg",            logo: "logos/augsburg.png" },
-    { name: "Bayern Munich",       logo: "logos/bayern-munich.png" },
-    { name: "Bayer Leverkusen",    logo: "logos/bayer-leverkusen.png" },
-    { name: "Borussia Dortmund",   logo: "logos/borussia-dortmund.png" },
-    { name: "B. Mönchengladbach",  logo: "logos/borussia-monchengladbach.png" },
-    { name: "Eintracht Frankfurt", logo: "logos/frankfurt.png" },
-    { name: "Freiburg",            logo: "logos/freiburg.png" },
-    { name: "Hamburger SV",        logo: "logos/hamburger.png" },
-    { name: "Heidenheim",          logo: "logos/heidenheim.png" },
-    { name: "Hoffenheim",          logo: "logos/hoffenheim.png" },
-    { name: "Köln",                logo: "logos/koln.png" },
-    { name: "Mainz",               logo: "logos/mainz.png" },
-    { name: "RB Leipzig",          logo: "logos/rb-leipzig.png" },
-    { name: "St. Pauli",           logo: "logos/st-pauli.png" },
-    { name: "Stuttgart",           logo: "logos/stuttgart.png" },
-    { name: "Union Berlin",        logo: "logos/union-berlin.png" },
-    { name: "Werder Bremen",       logo: "logos/werder-bremen.png" },
-    { name: "Wolfsburg",           logo: "logos/wolfsburg.png" },
-  ],
-};
 
 const LEAGUE_LOGOS = {
   "Brasileirão":    "logos/brasileirao.png",
