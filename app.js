@@ -72,12 +72,10 @@ async function generateImage() {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
 
-  // Canvas: mesma proporção da imagem de referência (imagem 2)
-  // ~520 x 390 com logos pequenos no canto superior direito
+  // Dimensões fiéis à imagem de referência
   canvas.width = 520;
   canvas.height = 390;
 
-  // Fundo branco limpo
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -86,32 +84,21 @@ async function generateImage() {
     loadImage(selected.team2.logo)
   ]);
 
-  // Tamanho dos logos — pequenos como na imagem 2
-  const logoSize = 75;
-
-  // Posição: canto superior direito
-  // "vs" tem ~22px de largura entre os dois logos
-  const vsWidth = 28;
-  const groupW = logoSize + vsWidth + logoSize; // total do grupo
-
-  // Iniciar o grupo próximo da borda direita
-  const marginRight = 18;
-  const x1 = canvas.width - marginRight - groupW;
-  const x2 = x1 + logoSize + vsWidth;
-
-  // Topo: pequena margem do topo
-  const marginTop = 28;
-  const y = marginTop;
+  const logoSize = 90;   // tamanho dos escudos
+  const vsGap   = 32;    // espaço total reservado para o "vs"
+  const x1      = 258;   // início do logo 1 (pouco após o meio)
+  const x2      = x1 + logoSize + vsGap;  // início do logo 2
+  const y       = 95;    // distância do topo
 
   if (img1) ctx.drawImage(img1, x1, y, logoSize, logoSize);
   if (img2) ctx.drawImage(img2, x2, y, logoSize, logoSize);
 
-  // "vs" centralizado entre os dois logos
-  ctx.font = "bold 14px Arial";
-  ctx.fillStyle = "#222222";
+  // "vs" centralizado no gap
+  ctx.font = "bold 15px Arial";
+  ctx.fillStyle = "#111111";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.fillText("vs", x1 + logoSize + vsWidth / 2, y + logoSize / 2);
+  ctx.fillText("vs", x1 + logoSize + vsGap / 2, y + logoSize / 2);
 
   document.getElementById("preview").style.display = "block";
 }
