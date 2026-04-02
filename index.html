@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gerador de Confronto – Ice.Bet</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="header">
+      <span class="badge">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</span>
+      <h1>Gerador de Confronto</h1>
+      <p>Selecione os dois times e baixe a imagem pronta para o Ice.Bet</p>
+    </div>
+
+    <div class="selectors">
+
+      <div class="team-box" id="box1">
+        <div class="box-label">Time da Casa</div>
+        <div class="selected-team" id="selected1">Nenhum selecionado</div>
+        <div class="team-grid" id="grid1"></div>
+      </div>
+
+      <div class="team-box" id="box2">
+        <div class="box-label">Time Visitante</div>
+        <div class="selected-team" id="selected2">Nenhum selecionado</div>
+        <div class="team-grid" id="grid2"></div>
+      </div>
+
+    </div>
+
+    <button id="generateBtn" disabled onclick="generateImage()">⚽ Gerar Imagem</button>
+
+    <div id="preview" style="display:none;">
+      <div class="preview-label">Preview</div>
+      <canvas id="canvas"></canvas>
+      <br/>
+      <button id="downloadBtn" onclick="downloadImage()">⬇️ Baixar PNG</button>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
