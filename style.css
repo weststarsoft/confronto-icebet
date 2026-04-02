@@ -2,42 +2,118 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: #f8fafc;
-  padding: 20px 16px;
   min-height: 100vh;
+  background: linear-gradient(135deg, #4a6a82 0%, #1c3148 40%, #0d1f30 100%);
+  padding: 28px 16px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Marca d'água */
+.watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  opacity: 0.045;
+  pointer-events: none;
+  z-index: 0;
+  filter: brightness(10);
+}
+
+.watermark img {
+  width: 100%;
 }
 
 .container {
   max-width: 660px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
+/* Header */
 .header {
-  text-align: center;
-  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
 }
 
-.badge {
-  display: inline-block;
-  background: #1e3a5f;
-  color: #fff;
-  padding: 4px 14px;
-  border-radius: 20px;
-  font-size: 12px;
-  margin-bottom: 10px;
+.header-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
 }
 
-h1 {
+.header-text h1 {
   font-size: 22px;
-  color: #111;
-  margin-bottom: 4px;
+  color: #ffffff;
+  font-weight: 700;
 }
 
-.header p {
-  color: #666;
+.header-text p {
+  color: rgba(255,255,255,0.5);
   font-size: 13px;
+  margin-top: 2px;
 }
 
+/* Section label */
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 8px;
+}
+
+/* League selector */
+.league-selector {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.league-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 22px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+  transition: all 0.18s;
+  backdrop-filter: blur(4px);
+}
+
+.league-btn img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.league-btn.active {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.45);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.league-btn:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.3);
+  color: #fff;
+}
+
+/* Team selectors */
 .selectors {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -46,16 +122,17 @@ h1 {
 }
 
 .team-box {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
   padding: 12px;
+  backdrop-filter: blur(6px);
 }
 
 .box-label {
   font-size: 11px;
   font-weight: 600;
-  color: #6b7280;
+  color: rgba(255,255,255,0.4);
   text-transform: uppercase;
   letter-spacing: 0.8px;
   margin-bottom: 8px;
@@ -63,9 +140,10 @@ h1 {
 
 .selected-team {
   font-size: 13px;
-  color: #1d4ed8;
+  color: #ffffff;
   font-weight: 600;
-  background: #eff6ff;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
   border-radius: 8px;
   padding: 6px 10px;
   margin-bottom: 8px;
@@ -85,8 +163,10 @@ h1 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
-  max-height: 320px;
+  max-height: 300px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.2) transparent;
 }
 
 .team-btn {
@@ -95,11 +175,11 @@ h1 {
   gap: 7px;
   padding: 7px 8px;
   border-radius: 8px;
-  border: 1.5px solid #e5e7eb;
-  background: #fff;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
   cursor: pointer;
   font-size: 12px;
-  color: #1f2937;
+  color: rgba(255,255,255,0.75);
   text-align: left;
   transition: all 0.15s;
 }
@@ -112,69 +192,85 @@ h1 {
 }
 
 .team-btn.active {
-  border-color: #3b82f6;
-  background: #eff6ff;
+  border-color: rgba(100,180,255,0.6);
+  background: rgba(100,180,255,0.12);
+  color: #ffffff;
   font-weight: 600;
 }
 
 .team-btn:hover {
-  border-color: #93c5fd;
-  background: #f0f7ff;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
 }
 
+/* Generate button */
 #generateBtn {
   width: 100%;
-  padding: 13px;
-  border-radius: 10px;
+  padding: 14px;
+  border-radius: 12px;
   border: none;
-  background: #d1d5db;
-  color: #fff;
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.35);
   font-size: 15px;
   font-weight: bold;
   cursor: not-allowed;
   margin-bottom: 16px;
-  transition: background 0.2s;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
 }
 
 #generateBtn.ready {
-  background: #1e3a5f;
+  background: linear-gradient(135deg, #2a7fc1, #1a5a8a);
+  color: #ffffff;
   cursor: pointer;
+  box-shadow: 0 4px 20px rgba(42,127,193,0.4);
 }
 
+#generateBtn.ready:hover {
+  background: linear-gradient(135deg, #3a8fd1, #2a6a9a);
+  box-shadow: 0 6px 24px rgba(42,127,193,0.55);
+}
+
+/* Preview */
 #preview {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
+  display: none;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
   padding: 16px;
   text-align: center;
+  backdrop-filter: blur(6px);
 }
 
 .preview-label {
   font-size: 11px;
-  color: #6b7280;
+  color: rgba(255,255,255,0.35);
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-bottom: 8px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
 }
 
 #canvas {
   max-width: 100%;
-  border-radius: 6px;
-  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
 #downloadBtn {
   margin-top: 12px;
-  padding: 10px 28px;
+  padding: 10px 32px;
   border-radius: 8px;
-  background: #22c55e;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
   border: none;
   color: #fff;
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
+  box-shadow: 0 4px 14px rgba(34,197,94,0.35);
+  transition: all 0.2s;
 }
 
 #downloadBtn:hover {
-  background: #16a34a;
+  background: linear-gradient(135deg, #30d96e, #1db858);
+  box-shadow: 0 6px 18px rgba(34,197,94,0.5);
 }
