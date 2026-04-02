@@ -1,4 +1,26 @@
 const LEAGUES = {
+  "Brasileirão": [
+    { name: "Athletico-PR",  logo: "logos/athletico-pr.png" },
+    { name: "Atlético-MG",   logo: "logos/atletico-mg.png" },
+    { name: "Bahia",         logo: "logos/bahia.png" },
+    { name: "Botafogo",      logo: "logos/botafogo.png" },
+    { name: "Bragantino",    logo: "logos/bragantino.png" },
+    { name: "Chapecoense",   logo: "logos/chapecoense.png" },
+    { name: "Corinthians",   logo: "logos/corinthians.png" },
+    { name: "Coritiba",      logo: "logos/coritiba.png" },
+    { name: "Cruzeiro",      logo: "logos/cruzeiro.png" },
+    { name: "Flamengo",      logo: "logos/flamengo.png" },
+    { name: "Fluminense",    logo: "logos/fluminense.png" },
+    { name: "Grêmio",        logo: "logos/gremio.png" },
+    { name: "Internacional", logo: "logos/internacional.png" },
+    { name: "Mirassol",      logo: "logos/mirassol.png" },
+    { name: "Palmeiras",     logo: "logos/palmeiras.png" },
+    { name: "Remo",          logo: "logos/remo.png" },
+    { name: "Santos",        logo: "logos/santos.png" },
+    { name: "São Paulo",     logo: "logos/saopaulos.png" },
+    { name: "Vasco",         logo: "logos/vasco.png" },
+    { name: "Vitória",       logo: "logos/vitoria.png" },
+  ],
   "Premier League": [
     { name: "Arsenal",           logo: "logos/arsenal.png" },
     { name: "Aston Villa",       logo: "logos/aston-villa.png" },
@@ -49,8 +71,10 @@ let currentLeague = "Premier League";
 let selected = { team1: null, team2: null };
 
 const LEAGUE_LOGOS = {
+  "Brasileirão":    "logos/brasileirao.png",
   "Premier League": "logos/premier-league.png",
   "La Liga":        "logos/laliga.png",
+};
 };
 
 function buildLeagueButtons() {
