@@ -44,38 +44,37 @@ const LEAGUES = {
     { name: "Wolves",            logo: "logos/wolves.png" },
   ],
   "La Liga": [
-    { name: "Alavés",            logo: "logos/alaves.png" },
-    { name: "Athletic Bilbao",   logo: "logos/athletic-bilbao.png" },
-    { name: "Atlético Madrid",   logo: "logos/atletico-madrid.png" },
-    { name: "Barcelona",         logo: "logos/Barcelona.png" },
-    { name: "Betis",             logo: "logos/betis.png" },
-    { name: "Celta Vigo",        logo: "logos/celta-vigo.png" },
-    { name: "Elche",             logo: "logos/elche.png" },
-    { name: "Espanyol",          logo: "logos/espanyol.png" },
-    { name: "Getafe",            logo: "logos/Getafe.png" },
-    { name: "Girona",            logo: "logos/girona.png" },
-    { name: "Levante",           logo: "logos/levante.png" },
-    { name: "Mallorca",          logo: "logos/Mallorca.png" },
-    { name: "Osasuna",           logo: "logos/osasuna.png" },
-    { name: "Rayo Vallecano",    logo: "logos/rayo-vallecano.png" },
-    { name: "Real Madrid",       logo: "logos/real-madrid.png" },
-    { name: "Real Oviedo",       logo: "logos/real-oviedo.png" },
-    { name: "Real Sociedad",     logo: "logos/real-ociedad.png" },
-    { name: "Sevilla",           logo: "logos/sevilla.png" },
-    { name: "Valencia",          logo: "logos/Valencia.png" },
-    { name: "Villarreal",        logo: "logos/villarreal.png" },
+    { name: "Alavés",          logo: "logos/alaves.png" },
+    { name: "Athletic Bilbao", logo: "logos/athletic-bilbao.png" },
+    { name: "Atlético Madrid", logo: "logos/atletico-madrid.png" },
+    { name: "Barcelona",       logo: "logos/Barcelona.png" },
+    { name: "Betis",           logo: "logos/betis.png" },
+    { name: "Celta Vigo",      logo: "logos/celta-vigo.png" },
+    { name: "Elche",           logo: "logos/elche.png" },
+    { name: "Espanyol",        logo: "logos/espanyol.png" },
+    { name: "Getafe",          logo: "logos/Getafe.png" },
+    { name: "Girona",          logo: "logos/girona.png" },
+    { name: "Levante",         logo: "logos/levante.png" },
+    { name: "Mallorca",        logo: "logos/Mallorca.png" },
+    { name: "Osasuna",         logo: "logos/osasuna.png" },
+    { name: "Rayo Vallecano",  logo: "logos/rayo-vallecano.png" },
+    { name: "Real Madrid",     logo: "logos/real-madrid.png" },
+    { name: "Real Oviedo",     logo: "logos/real-oviedo.png" },
+    { name: "Real Sociedad",   logo: "logos/real-ociedad.png" },
+    { name: "Sevilla",         logo: "logos/sevilla.png" },
+    { name: "Valencia",        logo: "logos/Valencia.png" },
+    { name: "Villarreal",      logo: "logos/villarreal.png" },
   ]
 };
-
-let currentLeague = "Premier League";
-let selected = { team1: null, team2: null };
 
 const LEAGUE_LOGOS = {
   "Brasileirão":    "logos/brasileirao.png",
   "Premier League": "logos/premier-league.png",
   "La Liga":        "logos/laliga.png",
 };
-};
+
+let currentLeague = "Brasileirão";
+let selected = { team1: null, team2: null };
 
 function buildLeagueButtons() {
   const container = document.getElementById("leagueButtons");
@@ -168,10 +167,10 @@ async function generateImage() {
   ]);
 
   const logoSize = 70;
-  const y        = 98;
-  const x1       = 302;
-  const vsGap    = 32;
-  const x2       = x1 + logoSize + vsGap;
+  const y     = 98;
+  const x1    = 302;
+  const vsGap = 32;
+  const x2    = x1 + logoSize + vsGap;
 
   if (img1) ctx.drawImage(img1, x1, y, logoSize, logoSize);
   if (img2) ctx.drawImage(img2, x2, y, logoSize, logoSize);
