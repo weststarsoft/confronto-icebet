@@ -42,16 +42,13 @@ function selectTeam(slot, team) {
   const key = slot === 1 ? "team1" : "team2";
   selected[key] = team;
 
-  // Update selected display
   const selEl = document.getElementById(`selected${slot}`);
   selEl.innerHTML = `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
 
-  // Highlight active button in this grid
   document.querySelectorAll(`#grid${slot} .team-btn`).forEach(btn => {
     btn.classList.toggle("active", btn.dataset.name === team.name);
   });
 
-  // Enable generate button when both selected
   const btn = document.getElementById("generateBtn");
   if (selected.team1 && selected.team2) {
     btn.disabled = false;
@@ -75,40 +72,46 @@ async function generateImage() {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
 
-  // Canvas dimensions matching reference image 3
-  canvas.width = 500;
+  // Canvas: mesma proporção da imagem de referência (imagem 2)
+  // ~520 x 390 com logos pequenos no canto superior direito
+  canvas.width = 520;
   canvas.height = 390;
 
-  // White background
+  // Fundo branco limpo
   ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, 500, 390);
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   const [img1, img2] = await Promise.all([
     loadImage(selected.team1.logo),
     loadImage(selected.team2.logo)
   ]);
 
-  const logoSize = 120;
-  const centerY = canvas.height / 2;
-  const gap = 44; // space for "vs"
+  // Tamanho dos logos — pequenos como na imagem 2
+  const logoSize = 75;
 
-  // Total width of the group: logo + gap + logo
-  const groupW = logoSize + gap + logoSize;
-  // Position group on right half of canvas (like reference)
-  const groupStartX = (canvas.width - groupW) / 2 + 80;
+  // Posição: canto superior direito
+  // "vs" tem ~22px de largura entre os dois logos
+  const vsWidth = 28;
+  const groupW = logoSize + vsWidth + logoSize; // total do grupo
 
-  const x1 = groupStartX;
-  const x2 = groupStartX + logoSize + gap;
+  // Iniciar o grupo próximo da borda direita
+  const marginRight = 18;
+  const x1 = canvas.width - marginRight - groupW;
+  const x2 = x1 + logoSize + vsWidth;
 
-  if (img1) ctx.drawImage(img1, x1, centerY - logoSize / 2, logoSize, logoSize);
-  if (img2) ctx.drawImage(img2, x2, centerY - logoSize / 2, logoSize, logoSize);
+  // Topo: pequena margem do topo
+  const marginTop = 28;
+  const y = marginTop;
 
-  // "vs" label
-  ctx.font = "bold 16px Arial";
+  if (img1) ctx.drawImage(img1, x1, y, logoSize, logoSize);
+  if (img2) ctx.drawImage(img2, x2, y, logoSize, logoSize);
+
+  // "vs" centralizado entre os dois logos
+  ctx.font = "bold 14px Arial";
   ctx.fillStyle = "#222222";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.fillText("vs", x1 + logoSize + gap / 2, centerY);
+  ctx.fillText("vs", x1 + logoSize + vsWidth / 2, y + logoSize / 2);
 
   document.getElementById("preview").style.display = "block";
 }
@@ -121,5 +124,4 @@ function downloadImage() {
   link.click();
 }
 
-// Init
 buildGrids();
