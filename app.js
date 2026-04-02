@@ -72,9 +72,9 @@ async function generateImage() {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
 
-  // Dimensões fiéis à imagem de referência
-  canvas.width = 520;
-  canvas.height = 390;
+  // Dimensões exatas medidas no Photoshop
+  canvas.width  = 512;
+  canvas.height = 368;
 
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -84,19 +84,19 @@ async function generateImage() {
     loadImage(selected.team2.logo)
   ]);
 
-  const logoSize = 90;   // tamanho dos escudos
-  const vsGap   = 32;    // espaço total reservado para o "vs"
-  const x1      = 258;   // início do logo 1 (pouco após o meio)
-  const x2      = x1 + logoSize + vsGap;  // início do logo 2
-  const y       = 95;    // distância do topo
+  const logoSize = 70;   // altura exata: Y 168 - Y 98 = 70px
+  const y        = 98;   // topo exato medido no Photoshop
+  const x1       = 302;  // início do logo 1 medido no Photoshop
+  const vsGap    = 32;   // espaço do "vs" entre os logos
+  const x2       = x1 + logoSize + vsGap; // início do logo 2
 
   if (img1) ctx.drawImage(img1, x1, y, logoSize, logoSize);
   if (img2) ctx.drawImage(img2, x2, y, logoSize, logoSize);
 
   // "vs" centralizado no gap
-  ctx.font = "bold 15px Arial";
-  ctx.fillStyle = "#111111";
-  ctx.textAlign = "center";
+  ctx.font         = "bold 13px Arial";
+  ctx.fillStyle    = "#111111";
+  ctx.textAlign    = "center";
   ctx.textBaseline = "middle";
   ctx.fillText("vs", x1 + logoSize + vsGap / 2, y + logoSize / 2);
 
