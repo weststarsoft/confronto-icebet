@@ -1,33 +1,92 @@
-const TEAMS = [
-  { name: "Arsenal",           logo: "logos/arsenal.png" },
-  { name: "Aston Villa",       logo: "logos/aston-villa.png" },
-  { name: "Bournemouth",       logo: "logos/bournemouth.png" },
-  { name: "Brentford",         logo: "logos/brentford.png" },
-  { name: "Brighton",          logo: "logos/brighton.png" },
-  { name: "Burnley",           logo: "logos/burnley.png" },
-  { name: "Chelsea",           logo: "logos/chelsea.png" },
-  { name: "Crystal Palace",    logo: "logos/crystal-palace.png" },
-  { name: "Everton",           logo: "logos/everton.png" },
-  { name: "Fulham",            logo: "logos/fulham.png" },
-  { name: "Leeds",             logo: "logos/leeds.png" },
-  { name: "Liverpool",         logo: "logos/liverpool.png" },
-  { name: "Manchester City",   logo: "logos/man-city.png" },
-  { name: "Manchester United", logo: "logos/man-united.png" },
-  { name: "Newcastle",         logo: "logos/newcastle.png" },
-  { name: "Nottingham Forest", logo: "logos/nottingham.png" },
-  { name: "Sunderland",        logo: "logos/sunderland.png" },
-  { name: "Tottenham",         logo: "logos/tottenham.png" },
-  { name: "West Ham",          logo: "logos/west-ham.png" },
-  { name: "Wolves",            logo: "logos/wolves.png" },
-];
+const LEAGUES = {
+  "Premier League": [
+    { name: "Arsenal",           logo: "logos/arsenal.png" },
+    { name: "Aston Villa",       logo: "logos/aston-villa.png" },
+    { name: "Bournemouth",       logo: "logos/bournemouth.png" },
+    { name: "Brentford",         logo: "logos/brentford.png" },
+    { name: "Brighton",          logo: "logos/brighton.png" },
+    { name: "Burnley",           logo: "logos/burnley.png" },
+    { name: "Chelsea",           logo: "logos/chelsea.png" },
+    { name: "Crystal Palace",    logo: "logos/crystal-palace.png" },
+    { name: "Everton",           logo: "logos/everton.png" },
+    { name: "Fulham",            logo: "logos/fulham.png" },
+    { name: "Leeds",             logo: "logos/leeds.png" },
+    { name: "Liverpool",         logo: "logos/liverpool.png" },
+    { name: "Manchester City",   logo: "logos/man-city.png" },
+    { name: "Manchester United", logo: "logos/man-united.png" },
+    { name: "Newcastle",         logo: "logos/newcastle.png" },
+    { name: "Nottingham Forest", logo: "logos/nottingham.png" },
+    { name: "Sunderland",        logo: "logos/sunderland.png" },
+    { name: "Tottenham",         logo: "logos/tottenham.png" },
+    { name: "West Ham",          logo: "logos/west-ham.png" },
+    { name: "Wolves",            logo: "logos/wolves.png" },
+  ],
+  "La Liga": [
+    { name: "Alavés",            logo: "logos/alaves.png" },
+    { name: "Athletic Bilbao",   logo: "logos/athletic-bilbao.png" },
+    { name: "Atlético Madrid",   logo: "logos/atletico-madrid.png" },
+    { name: "Barcelona",         logo: "logos/Barcelona.png" },
+    { name: "Betis",             logo: "logos/betis.png" },
+    { name: "Celta Vigo",        logo: "logos/celta-vigo.png" },
+    { name: "Elche",             logo: "logos/elche.png" },
+    { name: "Espanyol",          logo: "logos/espanyol.png" },
+    { name: "Getafe",            logo: "logos/Getafe.png" },
+    { name: "Girona",            logo: "logos/girona.png" },
+    { name: "Levante",           logo: "logos/levante.png" },
+    { name: "Mallorca",          logo: "logos/Mallorca.png" },
+    { name: "Osasuna",           logo: "logos/osasuna.png" },
+    { name: "Rayo Vallecano",    logo: "logos/rayo-vallecano.png" },
+    { name: "Real Madrid",       logo: "logos/real-madrid.png" },
+    { name: "Real Oviedo",       logo: "logos/real-oviedo.png" },
+    { name: "Real Sociedad",     logo: "logos/real-ociedad.png" },
+    { name: "Sevilla",           logo: "logos/sevilla.png" },
+    { name: "Valencia",          logo: "logos/Valencia.png" },
+    { name: "Villarreal",        logo: "logos/villarreal.png" },
+  ]
+};
 
+let currentLeague = "Premier League";
 let selected = { team1: null, team2: null };
+
+const LEAGUE_LOGOS = {
+  "Premier League": "logos/premier-league.png",
+  "La Liga":        "logos/laliga.png",
+};
+
+function buildLeagueButtons() {
+  const container = document.getElementById("leagueButtons");
+  container.innerHTML = "";
+  Object.keys(LEAGUES).forEach(league => {
+    const btn = document.createElement("button");
+    btn.className = "league-btn" + (league === currentLeague ? " active" : "");
+    if (LEAGUE_LOGOS[league]) {
+      btn.innerHTML = `<img src="${LEAGUE_LOGOS[league]}" alt="${league}" />${league}`;
+    } else {
+      btn.textContent = league;
+    }
+    btn.onclick = () => selectLeague(league);
+    container.appendChild(btn);
+  });
+}
+
+function selectLeague(league) {
+  currentLeague = league;
+  selected = { team1: null, team2: null };
+  document.getElementById("selected1").innerHTML = "Nenhum selecionado";
+  document.getElementById("selected2").innerHTML = "Nenhum selecionado";
+  document.getElementById("preview").style.display = "none";
+  const btn = document.getElementById("generateBtn");
+  btn.disabled = true;
+  btn.classList.remove("ready");
+  buildLeagueButtons();
+  buildGrids();
+}
 
 function buildGrids() {
   ["grid1", "grid2"].forEach((gridId, idx) => {
     const grid = document.getElementById(gridId);
     grid.innerHTML = "";
-    TEAMS.forEach(team => {
+    LEAGUES[currentLeague].forEach(team => {
       const btn = document.createElement("button");
       btn.className = "team-btn";
       btn.innerHTML = `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
@@ -59,7 +118,6 @@ function selectTeam(slot, team) {
 function loadImage(src) {
   return new Promise(resolve => {
     const img = new Image();
-    img.crossOrigin = "anonymous";
     img.onload = () => resolve(img);
     img.onerror = () => resolve(null);
     img.src = src;
@@ -72,7 +130,6 @@ async function generateImage() {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
 
-  // Forçar tamanho exato ignorando pixel ratio da tela
   canvas.width  = 512;
   canvas.height = 368;
   canvas.style.width  = "512px";
@@ -86,16 +143,15 @@ async function generateImage() {
     loadImage(selected.team2.logo)
   ]);
 
-  const logoSize = 70;   // altura exata: Y 168 - Y 98 = 70px
-  const y        = 98;   // topo exato medido no Photoshop
-  const x1       = 302;  // início do logo 1 medido no Photoshop
-  const vsGap    = 32;   // espaço do "vs" entre os logos
-  const x2       = x1 + logoSize + vsGap; // início do logo 2
+  const logoSize = 70;
+  const y        = 98;
+  const x1       = 302;
+  const vsGap    = 32;
+  const x2       = x1 + logoSize + vsGap;
 
   if (img1) ctx.drawImage(img1, x1, y, logoSize, logoSize);
   if (img2) ctx.drawImage(img2, x2, y, logoSize, logoSize);
 
-  // "vs" centralizado no gap
   ctx.font         = "bold 13px Arial";
   ctx.fillStyle    = "#111111";
   ctx.textAlign    = "center";
@@ -108,13 +164,10 @@ async function generateImage() {
 function downloadImage() {
   const canvas = document.getElementById("canvas");
 
-  // Cria um canvas auxiliar com o tamanho exato 512x368
   const exportCanvas = document.createElement("canvas");
   exportCanvas.width  = 512;
   exportCanvas.height = 368;
   const exportCtx = exportCanvas.getContext("2d");
-
-  // Escala o conteúdo do canvas original para caber exatamente em 512x368
   exportCtx.drawImage(canvas, 0, 0, 512, 368);
 
   const link = document.createElement("a");
@@ -123,4 +176,6 @@ function downloadImage() {
   link.click();
 }
 
+// Init
+buildLeagueButtons();
 buildGrids();
