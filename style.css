@@ -53,19 +53,19 @@ body {
 }
 
 .header-logo {
-  width: 64px;
-  height: 64px;
+  width: 80px;
+  height: 80px;
   object-fit: contain;
   filter: brightness(0) invert(1) drop-shadow(0px 4px 6px rgba(0,0,0,0.5));
   opacity: 0.9;
-  background: rgba(255,255,255,0.06);
-  border: 1.5px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 14px;
-  padding: 6px;
+  padding: 8px;
   box-shadow:
     0 2px 6px rgba(0,0,0,0.4),
     0 6px 18px rgba(0,0,0,0.3),
-    inset 0 1px 0 rgba(255,255,255,0.12);
+    inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
 .header-text h1 {
