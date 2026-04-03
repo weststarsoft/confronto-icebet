@@ -23,6 +23,29 @@
         <h1>Gerador de Confronto</h1>
         <p>Selecione a liga e os times para gerar a imagem</p>
       </div>
+
+      <!-- Painel de Ferramentas -->
+      <div class="tools-wrapper">
+        <button class="tools-btn" onclick="toggleTools()" title="Ferramentas">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+          Ferramentas
+        </button>
+        <div class="tools-panel" id="toolsPanel">
+          <div class="tools-panel-title">Ferramentas</div>
+          <a href="https://banner.starsoft.games/" target="_blank" class="tool-item">
+            <div class="tool-icon">🖼️</div>
+            <div class="tool-info">
+              <div class="tool-name">Gerador de Banners</div>
+              <div class="tool-desc">Crie banners para suas campanhas</div>
+            </div>
+          </a>
+          <!-- Adicione mais ferramentas aqui no futuro -->
+        </div>
+      </div>
+
     </div>
 
     <div class="section-label">Liga</div>
