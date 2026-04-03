@@ -142,6 +142,7 @@ const LEAGUES = {
     { name: "Portimonense",    logo: "logos/portimonense.png" },
     { name: "Porto",           logo: "logos/porto.png" },
     { name: "Rio Ave",         logo: "logos/rio-ave.png" },
+    { name: "Santa Clara",     logo: "logos/santa-clara.png" },
     { name: "Sporting CP",     logo: "logos/sporting.png" },
     { name: "Vicente",         logo: "logos/vicente.png" },
     { name: "Vitória SC",      logo: "logos/vitoria.png" },
