@@ -41,6 +41,17 @@ body {
   margin-bottom: 28px;
 }
 
+.header a {
+  display: flex;
+  align-items: center;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.header a:hover {
+  opacity: 0.75;
+  transform: scale(1.08);
+}
+
 .header-logo {
   width: 64px;
   height: 64px;
