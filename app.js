@@ -373,6 +373,23 @@ function downloadImage() {
   link.click();
 }
 
+function toggleTools() {
+  const panel = document.getElementById("toolsPanel");
+  panel.classList.toggle("open");
+
+  // Fecha ao clicar fora
+  if (panel.classList.contains("open")) {
+    setTimeout(() => {
+      document.addEventListener("click", function closePanel(e) {
+        if (!e.target.closest(".tools-wrapper")) {
+          panel.classList.remove("open");
+          document.removeEventListener("click", closePanel);
+        }
+      });
+    }, 0);
+  }
+}
+
 // Init
 buildLeagueButtons();
 buildGrids();
