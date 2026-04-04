@@ -39,6 +39,7 @@ const LEAGUES = {
     { name: "Newcastle",         logo: "logos/newcastle.png" },
     { name: "Nottingham Forest", logo: "logos/nottingham.png" },
     { name: "Port Vale",         logo: "logos/port-vale.png" },
+    { name: "Southampton",       logo: "logos/southampton.png" },
     { name: "Sunderland",        logo: "logos/sunderland.png" },
     { name: "Tottenham",         logo: "logos/tottenham.png" },
     { name: "West Ham",          logo: "logos/west-ham.png" },
