@@ -1,3 +1,9 @@
+const SPORTS = {
+  "⚽ Futebol": ["Brasileirão","Premier League","La Liga","Serie A","Bundesliga","Ligue 1","Primeira Liga","MLS","Liga Profesional","Copa do Mundo"],
+  "🏀 Basquete": ["NBA"],
+  "🏈 Futebol Americano": [],
+};
+
 const LEAGUES = {
   "Brasileirão": [
     { name: "Athletico-PR",  logo: "logos/athletico-pr.png" },
@@ -150,55 +156,6 @@ const LEAGUES = {
     { name: "Vitória SC",        logo: "logos/vitoria.png" },
     { name: "Vizela",            logo: "logos/vizela.png" },
   ],
-  "NBA": [
-    { name: "Charlotte Hornets",   logo: "logos/cha-hornets.png" },
-    { name: "Chicago Bulls",       logo: "logos/chi-bulls.png" },
-    { name: "Cleveland Cavaliers", logo: "logos/cle-cavaliers.png" },
-    { name: "Detroit Pistons",     logo: "logos/det-pistons.png" },
-    { name: "LA Clippers",         logo: "logos/la-clippers.png" },
-    { name: "LA Lakers",           logo: "logos/la-lakers.png" },
-    { name: "Miami Heat",          logo: "logos/mia-heat.png" },
-    { name: "Milwaukee Bucks",     logo: "logos/mil-bucks.png" },
-    { name: "New Orleans Pelicans",logo: "logos/no-pelicans.png" },
-    { name: "Orlando Magic",       logo: "logos/orl-magic.png" },
-    { name: "Philadelphia 76ers",  logo: "logos/phi-76ers.png" },
-    { name: "San Antonio Spurs",   logo: "logos/sa-spurs.png" },
-    { name: "Sacramento Kings",    logo: "logos/sac-kings.png" },
-    { name: "Utah Jazz",           logo: "logos/uta-jazz.png" },
-    { name: "Washington Wizards",  logo: "logos/was-wizards.png" },
-  ],
-
-    { name: "Aldosivi",              logo: "logos/aldosivi.png" },
-    { name: "Argentinos Juniors",    logo: "logos/argentinos-juniors.png" },
-    { name: "Atlético Platense",     logo: "logos/atletico-platense.png" },
-    { name: "Atlético Tucumán",      logo: "logos/atletico-tucuman.png" },
-    { name: "Banfield",              logo: "logos/banfield.png" },
-    { name: "Barracas Central",      logo: "logos/barracas-central.png" },
-    { name: "Belgrano",              logo: "logos/belgrano.png" },
-    { name: "Boca Juniors",          logo: "logos/boca-juniors.png" },
-    { name: "Central Córdoba",       logo: "logos/central-cordoba.png" },
-    { name: "Defensa y Justicia",    logo: "logos/defensa-y-justicia.png" },
-    { name: "Deportivo Riestra",     logo: "logos/deportivo-riestra.png" },
-    { name: "Estudiantes LP",        logo: "logos/estudiantes-de-la-plata.png" },
-    { name: "Gimnasia y Esgrima",    logo: "logos/gimnasia-y-esgrima.png" },
-    { name: "Godoy Cruz",            logo: "logos/godoy-cruz.png" },
-    { name: "Huracán",               logo: "logos/huracan.png" },
-    { name: "Independiente",         logo: "logos/independiente.png" },
-    { name: "Independiente Rivadavia", logo: "logos/independiente-rivadavia.png" },
-    { name: "Instituto Córdoba",     logo: "logos/instituto-cordoba.png" },
-    { name: "Lanús",                 logo: "logos/lanus.png" },
-    { name: "Newells Old Boys",      logo: "logos/old-boys.png" },
-    { name: "Racing Club",           logo: "logos/racing-club.png" },
-    { name: "River Plate",           logo: "logos/river-plate.png" },
-    { name: "Rosario Central",       logo: "logos/rosario-central.png" },
-    { name: "San Lorenzo",           logo: "logos/san-lorenzo.png" },
-    { name: "San Martín",            logo: "logos/san-martin.png" },
-    { name: "Sarmiento",             logo: "logos/sarmiento.png" },
-    { name: "Talleres",              logo: "logos/talleres.png" },
-    { name: "Tigre",                 logo: "logos/tigre.png" },
-    { name: "Unión",                 logo: "logos/union.png" },
-    { name: "Vélez Sarsfield",       logo: "logos/velez-sarsfield.png" },
-  ],
   "MLS": [
     { name: "Atlanta United",         logo: "logos/atlanta-united.png" },
     { name: "Austin FC",              logo: "logos/austin.png" },
@@ -230,6 +187,38 @@ const LEAGUES = {
     { name: "St. Louis City",         logo: "logos/st-louis-city.png" },
     { name: "Toronto FC",             logo: "logos/toronto.png" },
     { name: "Vancouver Whitecaps",    logo: "logos/vancouver-whitecaps.png" },
+  ],
+  "Liga Profesional": [
+    { name: "Aldosivi",                logo: "logos/aldosivi.png" },
+    { name: "Argentinos Juniors",      logo: "logos/argentinos-juniors.png" },
+    { name: "Atlético Platense",       logo: "logos/atletico-platense.png" },
+    { name: "Atlético Tucumán",        logo: "logos/atletico-tucuman.png" },
+    { name: "Banfield",                logo: "logos/banfield.png" },
+    { name: "Barracas Central",        logo: "logos/barracas-central.png" },
+    { name: "Belgrano",                logo: "logos/belgrano.png" },
+    { name: "Boca Juniors",            logo: "logos/boca-juniors.png" },
+    { name: "Central Córdoba",         logo: "logos/central-cordoba.png" },
+    { name: "Defensa y Justicia",      logo: "logos/defensa-y-justicia.png" },
+    { name: "Deportivo Riestra",       logo: "logos/deportivo-riestra.png" },
+    { name: "Estudiantes LP",          logo: "logos/estudiantes-de-la-plata.png" },
+    { name: "Gimnasia y Esgrima",      logo: "logos/gimnasia-y-esgrima.png" },
+    { name: "Godoy Cruz",              logo: "logos/godoy-cruz.png" },
+    { name: "Huracán",                 logo: "logos/huracan.png" },
+    { name: "Independiente",           logo: "logos/independiente.png" },
+    { name: "Independiente Rivadavia", logo: "logos/independiente-rivadavia.png" },
+    { name: "Instituto Córdoba",       logo: "logos/instituto-cordoba.png" },
+    { name: "Lanús",                   logo: "logos/lanus.png" },
+    { name: "Newells Old Boys",        logo: "logos/old-boys.png" },
+    { name: "Racing Club",             logo: "logos/racing-club.png" },
+    { name: "River Plate",             logo: "logos/river-plate.png" },
+    { name: "Rosario Central",         logo: "logos/rosario-central.png" },
+    { name: "San Lorenzo",             logo: "logos/san-lorenzo.png" },
+    { name: "San Martín",              logo: "logos/san-martin.png" },
+    { name: "Sarmiento",               logo: "logos/sarmiento.png" },
+    { name: "Talleres",                logo: "logos/talleres.png" },
+    { name: "Tigre",                   logo: "logos/tigre.png" },
+    { name: "Unión",                   logo: "logos/union.png" },
+    { name: "Vélez Sarsfield",         logo: "logos/velez-sarsfield.png" },
   ],
   "Copa do Mundo": [
     { name: "Alemanha",        logo: "logos/alemanha.png" },
@@ -274,6 +263,23 @@ const LEAGUES = {
     { name: "Uruguai",         logo: "logos/uruguai.png" },
     { name: "Uzbequistão",     logo: "logos/uzbequistao.png" },
   ],
+  "NBA": [
+    { name: "Charlotte Hornets",    logo: "logos/cha-hornets.png" },
+    { name: "Chicago Bulls",        logo: "logos/chi-bulls.png" },
+    { name: "Cleveland Cavaliers",  logo: "logos/cle-cavaliers.png" },
+    { name: "Detroit Pistons",      logo: "logos/det-pistons.png" },
+    { name: "LA Clippers",          logo: "logos/la-clippers.png" },
+    { name: "LA Lakers",            logo: "logos/la-lakers.png" },
+    { name: "Miami Heat",           logo: "logos/mia-heat.png" },
+    { name: "Milwaukee Bucks",      logo: "logos/mil-bucks.png" },
+    { name: "New Orleans Pelicans", logo: "logos/no-pelicans.png" },
+    { name: "Orlando Magic",        logo: "logos/orl-magic.png" },
+    { name: "Philadelphia 76ers",   logo: "logos/phi-76ers.png" },
+    { name: "San Antonio Spurs",    logo: "logos/sa-spurs.png" },
+    { name: "Sacramento Kings",     logo: "logos/sac-kings.png" },
+    { name: "Utah Jazz",            logo: "logos/uta-jazz.png" },
+    { name: "Washington Wizards",   logo: "logos/was-wizards.png" },
+  ],
 };
 
 const LEAGUE_LOGOS = {
@@ -284,20 +290,13 @@ const LEAGUE_LOGOS = {
   "Bundesliga":     "logos/bundesliga.png",
   "Ligue 1":        "logos/ligue-1.png",
   "Primeira Liga":  "logos/primeira-liga.png",
-  "NBA": "logos/nba.png",
+  "MLS":            "logos/major-league-soccer.png",
   "Liga Profesional": "logos/liga-profisional.png",
-  "MLS":              "logos/major-league-soccer.png",
   "Copa do Mundo":  "logos/fifa-world-cup-2026.png",
-};
-
-const SPORTS = {
-  "⚽ Futebol": ["Brasileirão","Premier League","La Liga","Serie A","Bundesliga","Ligue 1","Primeira Liga","MLS","Liga Profesional","Copa do Mundo"],
-  "🏀 Basquete": ["NBA"],
-  "🏈 Futebol Americano": [],
+  "NBA":            "logos/nba.png",
 };
 
 let currentSport = "⚽ Futebol";
-
 let currentLeague = "Brasileirão";
 let selected = { team1: null, team2: null };
 
@@ -369,6 +368,7 @@ function selectLeague(league) {
 }
 
 function buildGrids() {
+  if (!currentLeague || !LEAGUES[currentLeague]) return;
   ["grid1", "grid2"].forEach((gridId, idx) => {
     const grid = document.getElementById(gridId);
     grid.innerHTML = "";
@@ -475,8 +475,6 @@ function downloadImage() {
 function toggleTools() {
   const panel = document.getElementById("toolsPanel");
   panel.classList.toggle("open");
-
-  // Fecha ao clicar fora
   if (panel.classList.contains("open")) {
     setTimeout(() => {
       document.addEventListener("click", function closePanel(e) {
