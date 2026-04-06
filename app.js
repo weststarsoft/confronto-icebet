@@ -150,7 +150,24 @@ const LEAGUES = {
     { name: "Vitória SC",        logo: "logos/vitoria.png" },
     { name: "Vizela",            logo: "logos/vizela.png" },
   ],
-  "Liga Profesional": [
+  "NBA": [
+    { name: "Charlotte Hornets",   logo: "logos/cha-hornets.png" },
+    { name: "Chicago Bulls",       logo: "logos/chi-bulls.png" },
+    { name: "Cleveland Cavaliers", logo: "logos/cle-cavaliers.png" },
+    { name: "Detroit Pistons",     logo: "logos/det-pistons.png" },
+    { name: "LA Clippers",         logo: "logos/la-clippers.png" },
+    { name: "LA Lakers",           logo: "logos/la-lakers.png" },
+    { name: "Miami Heat",          logo: "logos/mia-heat.png" },
+    { name: "Milwaukee Bucks",     logo: "logos/mil-bucks.png" },
+    { name: "New Orleans Pelicans",logo: "logos/no-pelicans.png" },
+    { name: "Orlando Magic",       logo: "logos/orl-magic.png" },
+    { name: "Philadelphia 76ers",  logo: "logos/phi-76ers.png" },
+    { name: "San Antonio Spurs",   logo: "logos/sa-spurs.png" },
+    { name: "Sacramento Kings",    logo: "logos/sac-kings.png" },
+    { name: "Utah Jazz",           logo: "logos/uta-jazz.png" },
+    { name: "Washington Wizards",  logo: "logos/was-wizards.png" },
+  ],
+
     { name: "Aldosivi",              logo: "logos/aldosivi.png" },
     { name: "Argentinos Juniors",    logo: "logos/argentinos-juniors.png" },
     { name: "Atlético Platense",     logo: "logos/atletico-platense.png" },
@@ -267,6 +284,7 @@ const LEAGUE_LOGOS = {
   "Bundesliga":     "logos/bundesliga.png",
   "Ligue 1":        "logos/ligue-1.png",
   "Primeira Liga":  "logos/primeira-liga.png",
+  "NBA": "logos/nba.png",
   "Liga Profesional": "logos/liga-profisional.png",
   "MLS":              "logos/major-league-soccer.png",
   "Copa do Mundo":  "logos/fifa-world-cup-2026.png",
@@ -274,7 +292,7 @@ const LEAGUE_LOGOS = {
 
 const SPORTS = {
   "⚽ Futebol": ["Brasileirão","Premier League","La Liga","Serie A","Bundesliga","Ligue 1","Primeira Liga","MLS","Liga Profesional","Copa do Mundo"],
-  "🏀 Basquete": [],
+  "🏀 Basquete": ["NBA"],
   "🏈 Futebol Americano": [],
 };
 
