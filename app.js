@@ -272,13 +272,59 @@ const LEAGUE_LOGOS = {
   "Copa do Mundo":  "logos/fifa-world-cup-2026.png",
 };
 
+const SPORTS = {
+  "⚽ Futebol": ["Brasileirão","Premier League","La Liga","Serie A","Bundesliga","Ligue 1","Primeira Liga","MLS","Liga Profesional","Copa do Mundo"],
+  "🏀 Basquete": [],
+  "🏈 Futebol Americano": [],
+};
+
+let currentSport = "⚽ Futebol";
+
 let currentLeague = "Brasileirão";
 let selected = { team1: null, team2: null };
 
+function buildSportButtons() {
+  const container = document.getElementById("sportButtons");
+  container.innerHTML = "";
+  Object.keys(SPORTS).forEach(sport => {
+    const btn = document.createElement("button");
+    btn.className = "sport-btn" + (sport === currentSport ? " active" : "");
+    btn.textContent = sport;
+    btn.onclick = () => selectSport(sport);
+    container.appendChild(btn);
+  });
+}
+
+function selectSport(sport) {
+  currentSport = sport;
+  const leagues = SPORTS[sport];
+  currentLeague = leagues.length ? leagues[0] : null;
+  selected = { team1: null, team2: null };
+  document.getElementById("selected1").innerHTML = "Nenhum selecionado";
+  document.getElementById("selected2").innerHTML = "Nenhum selecionado";
+  document.getElementById("preview").style.display = "none";
+  const btn = document.getElementById("generateBtn");
+  btn.disabled = true;
+  btn.classList.remove("ready");
+  buildSportButtons();
+  buildLeagueButtons();
+  buildGrids();
+}
+
 function buildLeagueButtons() {
+  const leagues = SPORTS[currentSport];
+  const label = document.getElementById("leagueLabel");
   const container = document.getElementById("leagueButtons");
   container.innerHTML = "";
-  Object.keys(LEAGUES).forEach(league => {
+
+  if (!leagues || leagues.length === 0) {
+    label.style.display = "none";
+    container.innerHTML = `<p style="color:rgba(255,255,255,0.35);font-size:13px;padding:8px 0">Em breve...</p>`;
+    return;
+  }
+
+  label.style.display = "block";
+  leagues.forEach(league => {
     const btn = document.createElement("button");
     btn.className = "league-btn" + (league === currentLeague ? " active" : "");
     if (LEAGUE_LOGOS[league]) {
@@ -426,5 +472,6 @@ function toggleTools() {
 }
 
 // Init
+buildSportButtons();
 buildLeagueButtons();
 buildGrids();
