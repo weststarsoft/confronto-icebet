@@ -480,7 +480,9 @@ function loadImage(src) {
 }
 
 async function generateImage() {
-  if (!selected.team1 || !selected.team2) return;
+  const t1 = currentMode === "free" ? freeSelected.team1 : selected.team1;
+  const t2 = currentMode === "free" ? freeSelected.team2 : selected.team2;
+  if (!t1 || !t2) return;
 
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
@@ -493,10 +495,7 @@ async function generateImage() {
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  const [img1, img2] = await Promise.all([
-    loadImage(selected.team1.logo),
-    loadImage(selected.team2.logo)
-  ]);
+  const [img1, img2] = await Promise.all([loadImage(t1.logo), loadImage(t2.logo)]);
 
   const maxSize = 70;
   const y       = 98;
@@ -509,9 +508,7 @@ async function generateImage() {
     let w, h;
     if (ratio >= 1) { w = maxSize; h = maxSize / ratio; }
     else            { h = maxSize; w = maxSize * ratio; }
-    const offsetX = (maxSize - w) / 2;
-    const offsetY = (maxSize - h) / 2;
-    ctx.drawImage(img, x + offsetX, y + offsetY, w, h);
+    ctx.drawImage(img, x + (maxSize - w) / 2, y + (maxSize - h) / 2, w, h);
   }
 
   fitLogo(img1, x1);
@@ -527,16 +524,15 @@ async function generateImage() {
 }
 
 function downloadImage() {
+  const t1 = currentMode === "free" ? freeSelected.team1 : selected.team1;
+  const t2 = currentMode === "free" ? freeSelected.team2 : selected.team2;
   const canvas = document.getElementById("canvas");
-
   const exportCanvas = document.createElement("canvas");
   exportCanvas.width  = 512;
   exportCanvas.height = 368;
-  const exportCtx = exportCanvas.getContext("2d");
-  exportCtx.drawImage(canvas, 0, 0, 512, 368);
-
+  exportCanvas.getContext("2d").drawImage(canvas, 0, 0, 512, 368);
   const link = document.createElement("a");
-  link.download = `${selected.team1.name}_vs_${selected.team2.name}.png`;
+  link.download = `${t1.name}_vs_${t2.name}.png`;
   link.href = exportCanvas.toDataURL("image/png");
   link.click();
 }
