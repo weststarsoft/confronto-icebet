@@ -296,80 +296,14 @@ const LEAGUE_LOGOS = {
   "NBA":            "logos/nba.png",
 };
 
-let currentSport = "⚽ Futebol";
+let currentSport  = "⚽ Futebol";
 let currentLeague = "Brasileirão";
-let selected = { team1: null, team2: null };
+let currentMode   = "same";
+let selected      = { team1: null, team2: null };
+let freeSelected  = { team1: null, team2: null };
 
-let currentMode = "same";
-let freeSelected = { team1: null, team2: null };
-
-function setMode(mode) {
-  currentMode = mode;
-  document.getElementById("sameModeSection").style.display = mode === "same" ? "block" : "none";
-  document.getElementById("freeModeSection").style.display = mode === "free" ? "block" : "none";
-  document.getElementById("modeSame").classList.toggle("active", mode === "same");
-  document.getElementById("modeFree").classList.toggle("active", mode === "free");
-
-  // Reset
-  freeSelected = { team1: null, team2: null };
-  selected = { team1: null, team2: null };
-  document.getElementById("preview").style.display = "none";
-  const btn = document.getElementById("generateBtn");
-  btn.disabled = true;
-  btn.classList.remove("ready");
-
-  if (mode === "free") buildFreeSelects();
-}
-
-function buildFreeSelects() {
-  const allLeagues = Object.keys(LEAGUES);
-  [1, 2].forEach(slot => {
-    const sel = document.getElementById(`freeLeague${slot}`);
-    sel.innerHTML = `<option value="">Selecione a liga...</option>`;
-    allLeagues.forEach(league => {
-      const opt = document.createElement("option");
-      opt.value = league;
-      opt.textContent = league;
-      sel.appendChild(opt);
-    });
-  });
-}
-
-function buildFreeGrid(slot) {
-  const league = document.getElementById(`freeLeague${slot}`).value;
-  const grid = document.getElementById(`freeGrid${slot}`);
-  grid.innerHTML = "";
-  if (!league || !LEAGUES[league]) return;
-
-  LEAGUES[league].forEach(team => {
-    const btn = document.createElement("button");
-    btn.className = "team-btn";
-    btn.innerHTML = `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
-    btn.dataset.name = team.name;
-    btn.onclick = () => selectFreeTeam(slot, team, btn);
-    grid.appendChild(btn);
-  });
-}
-
-function selectFreeTeam(slot, team, btnEl) {
-  const key = `team${slot}`;
-  freeSelected[key] = team;
-
-  const selEl = document.getElementById(`freeSelected${slot}`);
-  selEl.innerHTML = `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
-
-  document.querySelectorAll(`#freeGrid${slot} .team-btn`).forEach(b => {
-    b.classList.toggle("active", b.dataset.name === team.name);
-  });
-
-  const btn = document.getElementById("generateBtn");
-  if (freeSelected.team1 && freeSelected.team2) {
-    btn.disabled = false;
-    btn.classList.add("ready");
-  }
-}
-
-
+// ── Sport ──────────────────────────────────────────────
+function buildSportButtons() {
   const container = document.getElementById("sportButtons");
   container.innerHTML = "";
   Object.keys(SPORTS).forEach(sport => {
@@ -382,24 +316,44 @@ function selectFreeTeam(slot, team, btnEl) {
 }
 
 function selectSport(sport) {
-  currentSport = sport;
+  currentSport  = sport;
   const leagues = SPORTS[sport];
   currentLeague = leagues.length ? leagues[0] : null;
-  selected = { team1: null, team2: null };
-  document.getElementById("selected1").innerHTML = "Nenhum selecionado";
-  document.getElementById("selected2").innerHTML = "Nenhum selecionado";
-  document.getElementById("preview").style.display = "none";
-  const btn = document.getElementById("generateBtn");
-  btn.disabled = true;
-  btn.classList.remove("ready");
+  selected      = { team1: null, team2: null };
+  freeSelected  = { team1: null, team2: null };
+  resetUI();
   buildSportButtons();
   buildLeagueButtons();
   buildGrids();
+  if (currentMode === "free") buildFreeSelects();
 }
 
+// ── Mode ───────────────────────────────────────────────
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById("sameModeSection").style.display = mode === "same" ? "block" : "none";
+  document.getElementById("freeModeSection").style.display = mode === "free" ? "block" : "none";
+  document.getElementById("modeSame").classList.toggle("active", mode === "same");
+  document.getElementById("modeFree").classList.toggle("active", mode === "free");
+  selected     = { team1: null, team2: null };
+  freeSelected = { team1: null, team2: null };
+  resetUI();
+  if (mode === "free") buildFreeSelects();
+}
+
+function resetUI() {
+  document.getElementById("selected1").innerHTML    = "Nenhum selecionado";
+  document.getElementById("selected2").innerHTML    = "Nenhum selecionado";
+  document.getElementById("preview").style.display  = "none";
+  const btn = document.getElementById("generateBtn");
+  btn.disabled = true;
+  btn.classList.remove("ready");
+}
+
+// ── League ─────────────────────────────────────────────
 function buildLeagueButtons() {
-  const leagues = SPORTS[currentSport];
-  const label = document.getElementById("leagueLabel");
+  const leagues   = SPORTS[currentSport];
+  const label     = document.getElementById("leagueLabel");
   const container = document.getElementById("leagueButtons");
   container.innerHTML = "";
 
@@ -413,11 +367,9 @@ function buildLeagueButtons() {
   leagues.forEach(league => {
     const btn = document.createElement("button");
     btn.className = "league-btn" + (league === currentLeague ? " active" : "");
-    if (LEAGUE_LOGOS[league]) {
-      btn.innerHTML = `<img src="${LEAGUE_LOGOS[league]}" alt="${league}" />${league}`;
-    } else {
-      btn.textContent = league;
-    }
+    btn.innerHTML = LEAGUE_LOGOS[league]
+      ? `<img src="${LEAGUE_LOGOS[league]}" alt="${league}" />${league}`
+      : league;
     btn.onclick = () => selectLeague(league);
     container.appendChild(btn);
   });
@@ -436,6 +388,7 @@ function selectLeague(league) {
   buildGrids();
 }
 
+// ── Grids (mesma liga) ─────────────────────────────────
 function buildGrids() {
   if (!currentLeague || !LEAGUES[currentLeague]) return;
   ["grid1", "grid2"].forEach((gridId, idx) => {
@@ -445,35 +398,67 @@ function buildGrids() {
       const btn = document.createElement("button");
       btn.className = "team-btn";
       btn.innerHTML = `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
-      btn.onclick = () => selectTeam(idx + 1, team);
       btn.dataset.name = team.name;
+      btn.onclick = () => selectTeam(idx + 1, team);
       grid.appendChild(btn);
     });
   });
 }
 
 function selectTeam(slot, team) {
-  const key = slot === 1 ? "team1" : "team2";
+  const key = `team${slot}`;
   selected[key] = team;
-
-  const selEl = document.getElementById(`selected${slot}`);
-  selEl.innerHTML = `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
-
-  document.querySelectorAll(`#grid${slot} .team-btn`).forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.name === team.name);
-  });
-
+  document.getElementById(`selected${slot}`).innerHTML = `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
+  document.querySelectorAll(`#grid${slot} .team-btn`).forEach(b => b.classList.toggle("active", b.dataset.name === team.name));
   const btn = document.getElementById("generateBtn");
-  if (selected.team1 && selected.team2) {
-    btn.disabled = false;
-    btn.classList.add("ready");
-  }
+  if (selected.team1 && selected.team2) { btn.disabled = false; btn.classList.add("ready"); }
 }
 
+// ── Free mode ──────────────────────────────────────────
+function buildFreeSelects() {
+  const allLeagues = Object.keys(LEAGUES);
+  [1, 2].forEach(slot => {
+    const sel = document.getElementById(`freeLeague${slot}`);
+    sel.innerHTML = `<option value="">Selecione a liga...</option>`;
+    allLeagues.forEach(league => {
+      const opt = document.createElement("option");
+      opt.value = league;
+      opt.textContent = league;
+      sel.appendChild(opt);
+    });
+    document.getElementById(`freeGrid${slot}`).innerHTML = "";
+    document.getElementById(`freeSelected${slot}`).innerHTML = "Nenhum selecionado";
+  });
+}
+
+function buildFreeGrid(slot) {
+  const league = document.getElementById(`freeLeague${slot}`).value;
+  const grid   = document.getElementById(`freeGrid${slot}`);
+  grid.innerHTML = "";
+  if (!league || !LEAGUES[league]) return;
+  LEAGUES[league].forEach(team => {
+    const btn = document.createElement("button");
+    btn.className = "team-btn";
+    btn.innerHTML = `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
+    btn.dataset.name = team.name;
+    btn.onclick = () => selectFreeTeam(slot, team);
+    grid.appendChild(btn);
+  });
+}
+
+function selectFreeTeam(slot, team) {
+  freeSelected[`team${slot}`] = team;
+  document.getElementById(`freeSelected${slot}`).innerHTML = `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
+  document.querySelectorAll(`#freeGrid${slot} .team-btn`).forEach(b => b.classList.toggle("active", b.dataset.name === team.name));
+  const btn = document.getElementById("generateBtn");
+  if (freeSelected.team1 && freeSelected.team2) { btn.disabled = false; btn.classList.add("ready"); }
+}
+
+// ── Image generation ───────────────────────────────────
 function loadImage(src) {
   return new Promise(resolve => {
     const img = new Image();
-    img.onload = () => resolve(img);
+    img.onload  = () => resolve(img);
     img.onerror = () => resolve(null);
     img.src = src;
   });
@@ -485,7 +470,7 @@ async function generateImage() {
   if (!t1 || !t2) return;
 
   const canvas = document.getElementById("canvas");
-  const ctx = canvas.getContext("2d");
+  const ctx    = canvas.getContext("2d");
 
   canvas.width  = 512;
   canvas.height = 368;
@@ -497,26 +482,22 @@ async function generateImage() {
 
   const [img1, img2] = await Promise.all([loadImage(t1.logo), loadImage(t2.logo)]);
 
-  const maxSize = 70;
-  const y       = 98;
-  const x1      = 302;
-  const vsGap   = 32;
+  const maxSize = 70, y = 98, x1 = 302, vsGap = 32;
 
   function fitLogo(img, x) {
     if (!img) return;
-    const ratio = img.naturalWidth / img.naturalHeight;
-    let w, h;
-    if (ratio >= 1) { w = maxSize; h = maxSize / ratio; }
-    else            { h = maxSize; w = maxSize * ratio; }
+    const r = img.naturalWidth / img.naturalHeight;
+    const w = r >= 1 ? maxSize : maxSize * r;
+    const h = r >= 1 ? maxSize / r : maxSize;
     ctx.drawImage(img, x + (maxSize - w) / 2, y + (maxSize - h) / 2, w, h);
   }
 
   fitLogo(img1, x1);
   fitLogo(img2, x1 + maxSize + vsGap);
 
-  ctx.font         = "bold 13px Arial";
-  ctx.fillStyle    = "#111111";
-  ctx.textAlign    = "center";
+  ctx.font = "bold 13px Arial";
+  ctx.fillStyle = "#111111";
+  ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText("vs", x1 + maxSize + vsGap / 2, y + maxSize / 2);
 
@@ -527,32 +508,32 @@ function downloadImage() {
   const t1 = currentMode === "free" ? freeSelected.team1 : selected.team1;
   const t2 = currentMode === "free" ? freeSelected.team2 : selected.team2;
   const canvas = document.getElementById("canvas");
-  const exportCanvas = document.createElement("canvas");
-  exportCanvas.width  = 512;
-  exportCanvas.height = 368;
-  exportCanvas.getContext("2d").drawImage(canvas, 0, 0, 512, 368);
+  const exp    = document.createElement("canvas");
+  exp.width = 512; exp.height = 368;
+  exp.getContext("2d").drawImage(canvas, 0, 0, 512, 368);
   const link = document.createElement("a");
   link.download = `${t1.name}_vs_${t2.name}.png`;
-  link.href = exportCanvas.toDataURL("image/png");
+  link.href = exp.toDataURL("image/png");
   link.click();
 }
 
+// ── Tools panel ────────────────────────────────────────
 function toggleTools() {
   const panel = document.getElementById("toolsPanel");
   panel.classList.toggle("open");
   if (panel.classList.contains("open")) {
     setTimeout(() => {
-      document.addEventListener("click", function closePanel(e) {
+      document.addEventListener("click", function close(e) {
         if (!e.target.closest(".tools-wrapper")) {
           panel.classList.remove("open");
-          document.removeEventListener("click", closePanel);
+          document.removeEventListener("click", close);
         }
       });
     }, 0);
   }
 }
 
-// Init
+// ── Init ───────────────────────────────────────────────
 buildSportButtons();
 buildLeagueButtons();
 buildGrids();
