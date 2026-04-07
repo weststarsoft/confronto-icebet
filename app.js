@@ -1,5 +1,5 @@
 const SPORTS = {
-  "⚽ Futebol": ["Brasileirão","Premier League","La Liga","Serie A","Bundesliga","Ligue 1","Primeira Liga","MLS","Liga Profesional","Copa do Mundo"],
+  "⚽ Futebol": ["Brasileirão","Premier League","La Liga","Serie A","Bundesliga","Ligue 1","Primeira Liga","MLS","Liga Profesional","Liga Pro","Copa do Mundo"],
   "🏀 Basquete": ["NBA"],
   "🏈 Futebol Americano": [],
 };
@@ -220,7 +220,10 @@ const LEAGUES = {
     { name: "Unión",                   logo: "logos/union.png" },
     { name: "Vélez Sarsfield",         logo: "logos/velez-sarsfield.png" },
   ],
-  "Copa do Mundo": [
+  "Liga Pro": [
+    { name: "Barcelona SC", logo: "logos/barcelona-sc.png" },
+  ],
+
     { name: "Alemanha",        logo: "logos/alemanha.png" },
     { name: "Arábia Saudita",  logo: "logos/arabia-saudita.png" },
     { name: "Argélia",         logo: "logos/argelia.png" },
@@ -292,6 +295,7 @@ const LEAGUE_LOGOS = {
   "Primeira Liga":  "logos/primeira-liga.png",
   "MLS":            "logos/major-league-soccer.png",
   "Liga Profesional": "logos/liga-profisional.png",
+  "Liga Pro":       "logos/liga-pro.png",
   "Copa do Mundo":  "logos/fifa-world-cup-2026.png",
   "NBA":            "logos/nba.png",
 };
