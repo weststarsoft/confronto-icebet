@@ -300,7 +300,76 @@ let currentSport = "⚽ Futebol";
 let currentLeague = "Brasileirão";
 let selected = { team1: null, team2: null };
 
-function buildSportButtons() {
+let currentMode = "same";
+let freeSelected = { team1: null, team2: null };
+
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById("sameModeSection").style.display = mode === "same" ? "block" : "none";
+  document.getElementById("freeModeSection").style.display = mode === "free" ? "block" : "none";
+  document.getElementById("modeSame").classList.toggle("active", mode === "same");
+  document.getElementById("modeFree").classList.toggle("active", mode === "free");
+
+  // Reset
+  freeSelected = { team1: null, team2: null };
+  selected = { team1: null, team2: null };
+  document.getElementById("preview").style.display = "none";
+  const btn = document.getElementById("generateBtn");
+  btn.disabled = true;
+  btn.classList.remove("ready");
+
+  if (mode === "free") buildFreeSelects();
+}
+
+function buildFreeSelects() {
+  const allLeagues = Object.keys(LEAGUES);
+  [1, 2].forEach(slot => {
+    const sel = document.getElementById(`freeLeague${slot}`);
+    sel.innerHTML = `<option value="">Selecione a liga...</option>`;
+    allLeagues.forEach(league => {
+      const opt = document.createElement("option");
+      opt.value = league;
+      opt.textContent = league;
+      sel.appendChild(opt);
+    });
+  });
+}
+
+function buildFreeGrid(slot) {
+  const league = document.getElementById(`freeLeague${slot}`).value;
+  const grid = document.getElementById(`freeGrid${slot}`);
+  grid.innerHTML = "";
+  if (!league || !LEAGUES[league]) return;
+
+  LEAGUES[league].forEach(team => {
+    const btn = document.createElement("button");
+    btn.className = "team-btn";
+    btn.innerHTML = `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
+    btn.dataset.name = team.name;
+    btn.onclick = () => selectFreeTeam(slot, team, btn);
+    grid.appendChild(btn);
+  });
+}
+
+function selectFreeTeam(slot, team, btnEl) {
+  const key = `team${slot}`;
+  freeSelected[key] = team;
+
+  const selEl = document.getElementById(`freeSelected${slot}`);
+  selEl.innerHTML = `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
+
+  document.querySelectorAll(`#freeGrid${slot} .team-btn`).forEach(b => {
+    b.classList.toggle("active", b.dataset.name === team.name);
+  });
+
+  const btn = document.getElementById("generateBtn");
+  if (freeSelected.team1 && freeSelected.team2) {
+    btn.disabled = false;
+    btn.classList.add("ready");
+  }
+}
+
+
   const container = document.getElementById("sportButtons");
   container.innerHTML = "";
   Object.keys(SPORTS).forEach(sport => {
