@@ -75,17 +75,13 @@
         <div class="team-box">
           <div class="box-label">Time da Casa</div>
           <div class="selected-team" id="freeSelected1">Nenhum selecionado</div>
-          <select id="freeLeague1" class="league-select" onchange="buildFreeGrid(1)">
-            <option value="">Selecione a liga...</option>
-          </select>
+          <input type="text" id="freeSearch1" class="team-search" placeholder="🔍 Buscar time..." oninput="searchTeam(1)" />
           <div class="team-grid" id="freeGrid1"></div>
         </div>
         <div class="team-box">
           <div class="box-label">Time Visitante</div>
           <div class="selected-team" id="freeSelected2">Nenhum selecionado</div>
-          <select id="freeLeague2" class="league-select" onchange="buildFreeGrid(2)">
-            <option value="">Selecione a liga...</option>
-          </select>
+          <input type="text" id="freeSearch2" class="team-search" placeholder="🔍 Buscar time..." oninput="searchTeam(2)" />
           <div class="team-grid" id="freeGrid2"></div>
         </div>
       </div>
