@@ -22,12 +22,9 @@ body {
   opacity: 0.12;
   pointer-events: none;
   z-index: 0;
-  filter: brightness(1) saturate(1.5) hue-rotate(0deg);
+  filter: brightness(1) saturate(1.5);
 }
-
-.watermark img {
-  width: 100%;
-}
+.watermark img { width: 100%; }
 
 .container {
   max-width: 660px;
@@ -44,11 +41,22 @@ body {
   margin-bottom: 28px;
 }
 
-/* Tools */
-.tools-wrapper {
-  margin-left: auto;
-  position: relative;
+.header a { display: flex; align-items: center; transition: opacity 0.2s, transform 0.2s; }
+.header a:hover { opacity: 0.75; transform: scale(1.08); }
+
+.header-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(0px 2px 8px rgba(0,180,255,0.5));
+  opacity: 1;
 }
+
+.header-text h1 { font-size: 22px; color: #ffffff; font-weight: 700; }
+.header-text p  { color: rgba(255,255,255,0.5); font-size: 13px; margin-top: 2px; }
+
+/* Tools */
+.tools-wrapper { margin-left: auto; position: relative; }
 
 .tools-btn {
   display: flex;
@@ -65,12 +73,7 @@ body {
   transition: all 0.2s;
   backdrop-filter: blur(6px);
 }
-
-.tools-btn:hover {
-  background: rgba(255,255,255,0.13);
-  color: #fff;
-  border-color: rgba(255,255,255,0.3);
-}
+.tools-btn:hover { background: rgba(255,255,255,0.13); color: #fff; border-color: rgba(255,255,255,0.3); }
 
 .tools-panel {
   display: none;
@@ -78,7 +81,7 @@ body {
   top: calc(100% + 10px);
   right: 0;
   width: 260px;
-  background: rgba(10, 20, 40, 0.95);
+  background: rgba(10,20,40,0.95);
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 14px;
   padding: 12px;
@@ -86,95 +89,15 @@ body {
   box-shadow: 0 8px 32px rgba(0,0,0,0.5);
   z-index: 100;
 }
+.tools-panel.open { display: block; }
+.tools-panel-title { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; padding: 0 4px; }
 
-.tools-panel.open {
-  display: block;
-}
-
-.tools-panel-title {
-  font-size: 11px;
-  font-weight: 600;
-  color: rgba(255,255,255,0.35);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-  padding: 0 4px;
-}
-
-.tool-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: background 0.15s;
-  cursor: pointer;
-}
-
-.tool-item:hover {
-  background: rgba(255,255,255,0.08);
-}
-
-.tool-icon {
-  font-size: 24px;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255,255,255,0.06);
-  border-radius: 10px;
-  flex-shrink: 0;
-}
-
-.tool-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.tool-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: #ffffff;
-}
-
-.tool-desc {
-  font-size: 11px;
-  color: rgba(255,255,255,0.45);
-}
-
-.header a {
-  display: flex;
-  align-items: center;
-  transition: opacity 0.2s, transform 0.2s;
-}
-
-.header a:hover {
-  opacity: 0.75;
-  transform: scale(1.08);
-}
-
-.header-logo {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-  filter: drop-shadow(0px 2px 8px rgba(0, 180, 255, 0.5));
-  opacity: 1;
-}
-
-.header-text h1 {
-  font-size: 22px;
-  color: #ffffff;
-  font-weight: 700;
-}
-
-.header-text p {
-  color: rgba(255,255,255,0.5);
-  font-size: 13px;
-  margin-top: 2px;
-}
+.tool-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; text-decoration: none; transition: background 0.15s; }
+.tool-item:hover { background: rgba(255,255,255,0.08); }
+.tool-icon { font-size: 24px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.06); border-radius: 10px; flex-shrink: 0; }
+.tool-name { font-size: 13px; font-weight: 600; color: #ffffff; }
+.tool-desc { font-size: 11px; color: rgba(255,255,255,0.45); }
+.tool-info { display: flex; flex-direction: column; gap: 2px; }
 
 /* Section label */
 .section-label {
@@ -186,6 +109,7 @@ body {
   margin-bottom: 8px;
 }
 
+/* Sport selector */
 .sport-selector {
   display: flex;
   gap: 8px;
@@ -207,21 +131,31 @@ body {
   transition: all 0.18s;
   backdrop-filter: blur(4px);
 }
+.sport-btn.active { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.45); color: #ffffff; font-weight: 600; }
+.sport-btn:hover  { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff; }
 
-.sport-btn.active {
-  background: rgba(255,255,255,0.15);
-  border-color: rgba(255,255,255,0.45);
-  color: #ffffff;
+/* Mode toggle */
+.mode-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.mode-btn {
+  padding: 9px 20px;
+  border-radius: 22px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.55);
+  font-size: 13px;
   font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
 }
+.mode-btn.active { background: linear-gradient(135deg, #2a7fc1, #1a5a8a); border-color: transparent; color: #fff; box-shadow: 0 4px 14px rgba(42,127,193,0.35); }
+.mode-btn:hover:not(.active) { background: rgba(255,255,255,0.1); color: #fff; }
 
-.sport-btn:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.3);
-  color: #fff;
-}
-
-
+/* League selector */
 .league-selector {
   display: flex;
   gap: 8px;
@@ -243,27 +177,26 @@ body {
   transition: all 0.18s;
   backdrop-filter: blur(4px);
 }
+.league-btn img { width: 22px; height: 22px; object-fit: contain; }
+.league-btn.active { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.45); color: #ffffff; font-weight: 600; }
+.league-btn:hover  { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff; }
 
-.league-btn img {
-  width: 22px;
-  height: 22px;
-  object-fit: contain;
-}
-
-.league-btn.active {
-  background: rgba(255,255,255,0.15);
-  border-color: rgba(255,255,255,0.45);
-  color: #ffffff;
-  font-weight: 600;
-}
-
-.league-btn:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.3);
+/* League select dropdown (modo livre) */
+.league-select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.07);
   color: #fff;
+  font-size: 13px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  outline: none;
 }
+.league-select option { background: #1a2a3a; color: #fff; }
 
-/* Team selectors */
+/* Selectors */
 .selectors {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -279,14 +212,7 @@ body {
   backdrop-filter: blur(6px);
 }
 
-.box-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: rgba(255,255,255,0.4);
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-bottom: 8px;
-}
+.box-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
 
 .selected-team {
   font-size: 13px;
@@ -302,12 +228,7 @@ body {
   align-items: center;
   gap: 8px;
 }
-
-.selected-team img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
+.selected-team img { width: 24px; height: 24px; object-fit: contain; }
 
 .team-grid {
   display: grid;
@@ -333,25 +254,9 @@ body {
   text-align: left;
   transition: all 0.15s;
 }
-
-.team-btn img {
-  width: 22px;
-  height: 22px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.team-btn.active {
-  border-color: rgba(100,180,255,0.6);
-  background: rgba(100,180,255,0.12);
-  color: #ffffff;
-  font-weight: 600;
-}
-
-.team-btn:hover {
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-}
+.team-btn img { width: 22px; height: 22px; object-fit: contain; flex-shrink: 0; }
+.team-btn.active { border-color: rgba(100,180,255,0.6); background: rgba(100,180,255,0.12); color: #fff; font-weight: 600; }
+.team-btn:hover  { background: rgba(255,255,255,0.1); color: #fff; }
 
 /* Generate button */
 #generateBtn {
@@ -366,20 +271,9 @@ body {
   cursor: not-allowed;
   margin-bottom: 16px;
   transition: all 0.2s;
-  letter-spacing: 0.3px;
 }
-
-#generateBtn.ready {
-  background: linear-gradient(135deg, #2a7fc1, #1a5a8a);
-  color: #ffffff;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(42,127,193,0.4);
-}
-
-#generateBtn.ready:hover {
-  background: linear-gradient(135deg, #3a8fd1, #2a6a9a);
-  box-shadow: 0 6px 24px rgba(42,127,193,0.55);
-}
+#generateBtn.ready { background: linear-gradient(135deg, #2a7fc1, #1a5a8a); color: #fff; cursor: pointer; box-shadow: 0 4px 20px rgba(42,127,193,0.4); }
+#generateBtn.ready:hover { background: linear-gradient(135deg, #3a8fd1, #2a6a9a); box-shadow: 0 6px 24px rgba(42,127,193,0.55); }
 
 /* Preview */
 #preview {
@@ -391,20 +285,9 @@ body {
   text-align: center;
   backdrop-filter: blur(6px);
 }
+.preview-label { font-size: 11px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
 
-.preview-label {
-  font-size: 11px;
-  color: rgba(255,255,255,0.35);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-}
-
-#canvas {
-  max-width: 100%;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.1);
-}
+#canvas { max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
 
 #downloadBtn {
   margin-top: 12px;
@@ -419,8 +302,4 @@ body {
   box-shadow: 0 4px 14px rgba(34,197,94,0.35);
   transition: all 0.2s;
 }
-
-#downloadBtn:hover {
-  background: linear-gradient(135deg, #30d96e, #1db858);
-  box-shadow: 0 6px 18px rgba(34,197,94,0.5);
-}
+#downloadBtn:hover { background: linear-gradient(135deg, #30d96e, #1db858); }
