@@ -51,23 +51,53 @@
     <div class="section-label">Esporte</div>
     <div id="sportButtons" class="sport-selector"></div>
 
-    <div class="section-label" id="leagueLabel" style="display:none">Liga</div>
-    <div id="leagueButtons" class="league-selector"></div>
+    <div class="mode-toggle">
+      <button id="modeSame" class="mode-btn active" onclick="setMode('same')">Mesma Liga</button>
+      <button id="modeFree" class="mode-btn" onclick="setMode('free')">Confronto Livre</button>
+    </div>
 
-    <div class="selectors">
+    <!-- Modo Mesma Liga -->
+    <div id="sameModeSection">
+      <div class="section-label" id="leagueLabel">Liga</div>
+      <div id="leagueButtons" class="league-selector"></div>
 
-      <div class="team-box">
-        <div class="box-label">Time da Casa</div>
-        <div class="selected-team" id="selected1">Nenhum selecionado</div>
-        <div class="team-grid" id="grid1"></div>
+      <div class="selectors">
+        <div class="team-box">
+          <div class="box-label">Time da Casa</div>
+          <div class="selected-team" id="selected1">Nenhum selecionado</div>
+          <div class="team-grid" id="grid1"></div>
+        </div>
+        <div class="team-box">
+          <div class="box-label">Time Visitante</div>
+          <div class="selected-team" id="selected2">Nenhum selecionado</div>
+          <div class="team-grid" id="grid2"></div>
+        </div>
       </div>
+    </div>
 
-      <div class="team-box">
-        <div class="box-label">Time Visitante</div>
-        <div class="selected-team" id="selected2">Nenhum selecionado</div>
-        <div class="team-grid" id="grid2"></div>
+    <!-- Modo Livre -->
+    <div id="freeModeSection" style="display:none">
+      <div class="selectors">
+
+        <div class="team-box">
+          <div class="box-label">Time da Casa</div>
+          <div class="selected-team" id="freeSelected1">Nenhum selecionado</div>
+          <select id="freeLeague1" class="league-select" onchange="buildFreeGrid(1)">
+            <option value="">Selecione a liga...</option>
+          </select>
+          <div class="team-grid" id="freeGrid1"></div>
+        </div>
+
+        <div class="team-box">
+          <div class="box-label">Time Visitante</div>
+          <div class="selected-team" id="freeSelected2">Nenhum selecionado</div>
+          <select id="freeLeague2" class="league-select" onchange="buildFreeGrid(2)">
+            <option value="">Selecione a liga...</option>
+          </select>
+          <div class="team-grid" id="freeGrid2"></div>
+        </div>
+
       </div>
-
     </div>
 
     <button id="generateBtn" disabled onclick="generateImage()">⚽ Gerar Imagem</button>
