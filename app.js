@@ -223,7 +223,7 @@ const LEAGUES = {
   "Liga Pro": [
     { name: "Barcelona SC", logo: "logos/barcelona-sc.png" },
   ],
-
+  "Copa do Mundo": [
     { name: "Alemanha",        logo: "logos/alemanha.png" },
     { name: "Arábia Saudita",  logo: "logos/arabia-saudita.png" },
     { name: "Argélia",         logo: "logos/argelia.png" },
@@ -306,6 +306,8 @@ let currentMode   = "same";
 let selected      = { team1: null, team2: null };
 let freeSelected  = { team1: null, team2: null };
 
+const ALL_TEAMS = Object.values(LEAGUES).flat();
+
 // ── Sport ──────────────────────────────────────────────
 function buildSportButtons() {
   const container = document.getElementById("sportButtons");
@@ -346,9 +348,9 @@ function setMode(mode) {
 }
 
 function resetUI() {
-  document.getElementById("selected1").innerHTML    = "Nenhum selecionado";
-  document.getElementById("selected2").innerHTML    = "Nenhum selecionado";
-  document.getElementById("preview").style.display  = "none";
+  document.getElementById("selected1").innerHTML   = "Nenhum selecionado";
+  document.getElementById("selected2").innerHTML   = "Nenhum selecionado";
+  document.getElementById("preview").style.display = "none";
   const btn = document.getElementById("generateBtn");
   btn.disabled = true;
   btn.classList.remove("ready");
@@ -410,8 +412,7 @@ function buildGrids() {
 }
 
 function selectTeam(slot, team) {
-  const key = `team${slot}`;
-  selected[key] = team;
+  selected[`team${slot}`] = team;
   document.getElementById(`selected${slot}`).innerHTML = `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
   document.querySelectorAll(`#grid${slot} .team-btn`).forEach(b => b.classList.toggle("active", b.dataset.name === team.name));
   const btn = document.getElementById("generateBtn");
@@ -419,8 +420,6 @@ function selectTeam(slot, team) {
 }
 
 // ── Free mode ──────────────────────────────────────────
-const ALL_TEAMS = Object.values(LEAGUES).flat();
-
 function buildFreeSelects() {
   [1, 2].forEach(slot => {
     document.getElementById(`freeSearch${slot}`).value = "";
@@ -436,6 +435,10 @@ function searchTeam(slot) {
   if (query.length < 2) return;
 
   const results = ALL_TEAMS.filter(t => t.name.toLowerCase().includes(query));
+  if (results.length === 0) {
+    grid.innerHTML = `<p style="color:rgba(255,255,255,0.35);font-size:12px;padding:6px">Nenhum time encontrado</p>`;
+    return;
+  }
   results.forEach(team => {
     const btn = document.createElement("button");
     btn.className = "team-btn";
@@ -444,10 +447,6 @@ function searchTeam(slot) {
     btn.onclick = () => selectFreeTeam(slot, team);
     grid.appendChild(btn);
   });
-
-  if (results.length === 0) {
-    grid.innerHTML = `<p style="color:rgba(255,255,255,0.35);font-size:12px;padding:6px">Nenhum time encontrado</p>`;
-  }
 }
 
 function selectFreeTeam(slot, team) {
@@ -512,7 +511,7 @@ function downloadImage() {
   const t1 = currentMode === "free" ? freeSelected.team1 : selected.team1;
   const t2 = currentMode === "free" ? freeSelected.team2 : selected.team2;
   const canvas = document.getElementById("canvas");
-  const exp    = document.createElement("canvas");
+  const exp = document.createElement("canvas");
   exp.width = 512; exp.height = 368;
   exp.getContext("2d").drawImage(canvas, 0, 0, 512, 368);
   const link = document.createElement("a");
