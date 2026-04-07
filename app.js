@@ -415,28 +415,24 @@ function selectTeam(slot, team) {
 }
 
 // ── Free mode ──────────────────────────────────────────
+const ALL_TEAMS = Object.values(LEAGUES).flat();
+
 function buildFreeSelects() {
-  const allLeagues = Object.keys(LEAGUES);
   [1, 2].forEach(slot => {
-    const sel = document.getElementById(`freeLeague${slot}`);
-    sel.innerHTML = `<option value="">Selecione a liga...</option>`;
-    allLeagues.forEach(league => {
-      const opt = document.createElement("option");
-      opt.value = league;
-      opt.textContent = league;
-      sel.appendChild(opt);
-    });
+    document.getElementById(`freeSearch${slot}`).value = "";
     document.getElementById(`freeGrid${slot}`).innerHTML = "";
     document.getElementById(`freeSelected${slot}`).innerHTML = "Nenhum selecionado";
   });
 }
 
-function buildFreeGrid(slot) {
-  const league = document.getElementById(`freeLeague${slot}`).value;
-  const grid   = document.getElementById(`freeGrid${slot}`);
+function searchTeam(slot) {
+  const query = document.getElementById(`freeSearch${slot}`).value.toLowerCase().trim();
+  const grid  = document.getElementById(`freeGrid${slot}`);
   grid.innerHTML = "";
-  if (!league || !LEAGUES[league]) return;
-  LEAGUES[league].forEach(team => {
+  if (query.length < 2) return;
+
+  const results = ALL_TEAMS.filter(t => t.name.toLowerCase().includes(query));
+  results.forEach(team => {
     const btn = document.createElement("button");
     btn.className = "team-btn";
     btn.innerHTML = `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
@@ -444,6 +440,10 @@ function buildFreeGrid(slot) {
     btn.onclick = () => selectFreeTeam(slot, team);
     grid.appendChild(btn);
   });
+
+  if (results.length === 0) {
+    grid.innerHTML = `<p style="color:rgba(255,255,255,0.35);font-size:12px;padding:6px">Nenhum time encontrado</p>`;
+  }
 }
 
 function selectFreeTeam(slot, team) {
