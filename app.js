@@ -1,25 +1,46 @@
 const LEAGUES = {
   "Brasileirão": [
-    { name: "Athletico-PR",  logo: "logos/athletico-pr.png" },
-    { name: "Atlético-MG",   logo: "logos/atletico-mg.png" },
-    { name: "Bahia",         logo: "logos/bahia.png" },
-    { name: "Botafogo",      logo: "logos/botafogo.png" },
-    { name: "Bragantino",    logo: "logos/bragantino.png" },
-    { name: "Chapecoense",   logo: "logos/chapecoense.png" },
-    { name: "Corinthians",   logo: "logos/corinthians.png" },
-    { name: "Coritiba",      logo: "logos/coritiba.png" },
-    { name: "Cruzeiro",      logo: "logos/cruzeiro.png" },
-    { name: "Flamengo",      logo: "logos/flamengo.png" },
-    { name: "Fluminense",    logo: "logos/fluminense.png" },
-    { name: "Grêmio",        logo: "logos/gremio.png" },
-    { name: "Internacional", logo: "logos/internacional.png" },
-    { name: "Mirassol",      logo: "logos/mirassol.png" },
-    { name: "Palmeiras",     logo: "logos/palmeiras.png" },
-    { name: "Remo",          logo: "logos/remo.png" },
-    { name: "Santos",        logo: "logos/santos.png" },
-    { name: "São Paulo",     logo: "logos/saopaulos.png" },
-    { name: "Vasco",         logo: "logos/vasco.png" },
-    { name: "Vitória",       logo: "logos/vitoria.png" },
+    { name: "América Mineiro",      logo: "logos/america-mineiro.png" },
+    { name: "América-MG",           logo: "logos/america-mg.png" },
+    { name: "Athletic",             logo: "logos/athletic.png" },
+    { name: "Athletico-PR",         logo: "logos/athletico-pr.png" },
+    { name: "Atlético-GO",          logo: "logos/atletico-go.png" },
+    { name: "Atlético-MG",          logo: "logos/atletico-mg.png" },
+    { name: "Avaí",                 logo: "logos/avai.png" },
+    { name: "Bahia",                logo: "logos/bahia.png" },
+    { name: "Botafogo",             logo: "logos/botafogo.png" },
+    { name: "Botafogo-SP",          logo: "logos/botafogo-sp.png" },
+    { name: "Bragantino",           logo: "logos/bragantino.png" },
+    { name: "CRB",                  logo: "logos/crb.png" },
+    { name: "Ceará",                logo: "logos/ceara.png" },
+    { name: "Chapecoense",          logo: "logos/chapecoense.png" },
+    { name: "Corinthians",          logo: "logos/corinthians.png" },
+    { name: "Coritiba",             logo: "logos/coritiba.png" },
+    { name: "Criciúma",             logo: "logos/criciuma.png" },
+    { name: "Cruzeiro",             logo: "logos/cruzeiro.png" },
+    { name: "Cuiabá",               logo: "logos/cuiaba.png" },
+    { name: "Flamengo",             logo: "logos/flamengo.png" },
+    { name: "Fluminense",           logo: "logos/fluminense.png" },
+    { name: "Fortaleza",            logo: "logos/fortaleza.png" },
+    { name: "Goiás",                logo: "logos/goias.png" },
+    { name: "Grêmio",               logo: "logos/gremio.png" },
+    { name: "Internacional",        logo: "logos/internacional.png" },
+    { name: "Juventude",            logo: "logos/juventude.png" },
+    { name: "Londrina",             logo: "logos/londrina.png" },
+    { name: "Mirassol",             logo: "logos/mirassol.png" },
+    { name: "Náutico",              logo: "logos/nautico.png" },
+    { name: "Novorizontino",        logo: "logos/novorizontino.png" },
+    { name: "Operário Ferroviário", logo: "logos/operario-ferroviario.png" },
+    { name: "Palmeiras",            logo: "logos/palmeiras.png" },
+    { name: "Ponte Preta",          logo: "logos/ponte-preta.png" },
+    { name: "Remo",                 logo: "logos/remo.png" },
+    { name: "Santos",               logo: "logos/santos.png" },
+    { name: "São Bernardo",         logo: "logos/sao-bernardo.png" },
+    { name: "São Paulo",            logo: "logos/saopaulos.png" },
+    { name: "Sport Recife",         logo: "logos/sport-recife.png" },
+    { name: "Vasco",                logo: "logos/vasco.png" },
+    { name: "Vila Nova",            logo: "logos/vila-nova.png" },
+    { name: "Vitória",              logo: "logos/vitoria.png" },
   ],
   "Premier League": [
     { name: "Arsenal",           logo: "logos/arsenal.png" },
@@ -215,22 +236,22 @@ const LEAGUES = {
     { name: "Vélez Sarsfield",         logo: "logos/velez-sarsfield.png" },
   ],
   "Liga Pro": [
-    { name: "Aucas",                  logo: "logos/aucas.png" },
-    { name: "Barcelona SC",           logo: "logos/barcelona-sc.png" },
-    { name: "Delfín SC",              logo: "logos/delfin-sc.png" },
-    { name: "Deportivo Cuenca",       logo: "logos/deportivo-cuenca.png" },
-    { name: "El Nacional",            logo: "logos/el-nacional-ecuador.png" },
-    { name: "Emelec",                 logo: "logos/emelec.png" },
-    { name: "Independiente del Valle",logo: "logos/independiente-del-valle.png" },
-    { name: "LDU Quito",              logo: "logos/ldu-quito.png" },
-    { name: "Libertad",               logo: "logos/libertad.png" },
-    { name: "Macará",                 logo: "logos/macara.png" },
-    { name: "Manta FC",               logo: "logos/manta.png" },
-    { name: "Mushuc Runa",            logo: "logos/mushuc-runa.png" },
-    { name: "Orense SC",              logo: "logos/orense.png" },
-    { name: "Técnico Universitario",  logo: "logos/tecnico-universitario.png" },
-    { name: "Universidad Católica",   logo: "logos/universidad-catolica.png" },
-    { name: "Vinotinto FC",           logo: "logos/vinotinto.png" },
+    { name: "Aucas",                   logo: "logos/aucas.png" },
+    { name: "Barcelona SC",            logo: "logos/barcelona-sc.png" },
+    { name: "Delfín SC",               logo: "logos/delfin-sc.png" },
+    { name: "Deportivo Cuenca",        logo: "logos/deportivo-cuenca.png" },
+    { name: "El Nacional",             logo: "logos/el-nacional-ecuador.png" },
+    { name: "Emelec",                  logo: "logos/emelec.png" },
+    { name: "Independiente del Valle", logo: "logos/independiente-del-valle.png" },
+    { name: "LDU Quito",               logo: "logos/ldu-quito.png" },
+    { name: "Libertad",                logo: "logos/libertad.png" },
+    { name: "Macará",                  logo: "logos/macara.png" },
+    { name: "Manta FC",                logo: "logos/manta.png" },
+    { name: "Mushuc Runa",             logo: "logos/mushuc-runa.png" },
+    { name: "Orense SC",               logo: "logos/orense.png" },
+    { name: "Técnico Universitario",   logo: "logos/tecnico-universitario.png" },
+    { name: "Universidad Católica",    logo: "logos/universidad-catolica.png" },
+    { name: "Vinotinto FC",            logo: "logos/vinotinto.png" },
   ],
   "Copa do Mundo": [
     { name: "Alemanha",        logo: "logos/alemanha.png" },
@@ -295,18 +316,18 @@ const LEAGUES = {
 };
 
 const LEAGUE_LOGOS = {
-  "Brasileirão":    "logos/brasileirao.png",
-  "Premier League": "logos/premier-league.png",
-  "La Liga":        "logos/laliga.png",
-  "Serie A":        "logos/seriea.png",
-  "Bundesliga":     "logos/bundesliga.png",
-  "Ligue 1":        "logos/ligue-1.png",
-  "Primeira Liga":  "logos/primeira-liga.png",
-  "MLS":            "logos/major-league-soccer.png",
+  "Brasileirão":      "logos/brasileirao.png",
+  "Premier League":   "logos/premier-league.png",
+  "La Liga":          "logos/laliga.png",
+  "Serie A":          "logos/seriea.png",
+  "Bundesliga":       "logos/bundesliga.png",
+  "Ligue 1":          "logos/ligue-1.png",
+  "Primeira Liga":    "logos/primeira-liga.png",
+  "MLS":              "logos/major-league-soccer.png",
   "Liga Profesional": "logos/liga-profisional.png",
-  "Liga Pro":       "logos/liga-pro.png",
-  "Copa do Mundo":  "logos/fifa-world-cup-2026.png",
-  "NBA":            "logos/nba.png",
+  "Liga Pro":         "logos/liga-pro.png",
+  "Copa do Mundo":    "logos/fifa-world-cup-2026.png",
+  "NBA":              "logos/nba.png",
 };
 
 let currentLeague = "Brasileirão";
@@ -318,10 +339,9 @@ const ALL_TEAMS = Object.values(LEAGUES).flat();
 
 // ── Live Preview ───────────────────────────────────────
 function updateLivePreview(slot, team) {
-  const logo = document.getElementById(`liveLogo${slot}`);
+  const logo        = document.getElementById(`liveLogo${slot}`);
   const placeholder = document.getElementById(`livePlaceholder${slot}`);
-  const name = document.getElementById(`liveName${slot}`);
-
+  const name        = document.getElementById(`liveName${slot}`);
   if (team) {
     logo.src = team.logo;
     logo.style.display = "block";
@@ -336,7 +356,7 @@ function updateLivePreview(slot, team) {
   }
 }
 
-
+// ── League ─────────────────────────────────────────────
 function buildLeagueButtons() {
   const container = document.getElementById("leagueButtons");
   container.innerHTML = "";
@@ -357,6 +377,8 @@ function selectLeague(league) {
   document.getElementById("selected1").innerHTML = "Nenhum selecionado";
   document.getElementById("selected2").innerHTML = "Nenhum selecionado";
   document.getElementById("preview").style.display = "none";
+  updateLivePreview(1, null);
+  updateLivePreview(2, null);
   const btn = document.getElementById("generateBtn");
   btn.disabled = true;
   btn.classList.remove("ready");
@@ -402,6 +424,8 @@ function setMode(mode) {
   document.getElementById("selected1").innerHTML = "Nenhum selecionado";
   document.getElementById("selected2").innerHTML = "Nenhum selecionado";
   document.getElementById("preview").style.display = "none";
+  updateLivePreview(1, null);
+  updateLivePreview(2, null);
   const btn = document.getElementById("generateBtn");
   btn.disabled = true;
   btn.classList.remove("ready");
@@ -422,7 +446,6 @@ function searchTeam(slot) {
   const grid  = document.getElementById(`freeGrid${slot}`);
   grid.innerHTML = "";
   if (query.length < 2) return;
-
   const results = ALL_TEAMS.filter(t => t.name.toLowerCase().includes(query));
   if (results.length === 0) {
     grid.innerHTML = `<p style="color:rgba(255,255,255,0.35);font-size:12px;padding:6px">Nenhum time encontrado</p>`;
@@ -464,7 +487,6 @@ async function generateImage() {
 
   const canvas = document.getElementById("canvas");
   const ctx    = canvas.getContext("2d");
-
   canvas.width  = 512;
   canvas.height = 368;
   canvas.style.width  = "512px";
@@ -474,7 +496,6 @@ async function generateImage() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   const [img1, img2] = await Promise.all([loadImage(t1.logo), loadImage(t2.logo)]);
-
   const maxSize = 70, y = 98, x1 = 302, vsGap = 32;
 
   function fitLogo(img, x) {
