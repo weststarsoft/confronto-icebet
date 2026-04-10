@@ -1,9 +1,3 @@
-const SPORTS = {
-  "⚽ Futebol": ["Brasileirão","Premier League","La Liga","Serie A","Bundesliga","Ligue 1","Primeira Liga","MLS","Liga Profesional","Liga Pro","Copa do Mundo"],
-  "🏀 Basquete": ["NBA"],
-  "🏈 Futebol Americano": [],
-};
-
 const LEAGUES = {
   "Brasileirão": [
     { name: "Athletico-PR",  logo: "logos/athletico-pr.png" },
@@ -221,7 +215,22 @@ const LEAGUES = {
     { name: "Vélez Sarsfield",         logo: "logos/velez-sarsfield.png" },
   ],
   "Liga Pro": [
-    { name: "Barcelona SC", logo: "logos/barcelona-sc.png" },
+    { name: "Aucas",                  logo: "logos/aucas.png" },
+    { name: "Barcelona SC",           logo: "logos/barcelona-sc.png" },
+    { name: "Delfín SC",              logo: "logos/delfin-sc.png" },
+    { name: "Deportivo Cuenca",       logo: "logos/deportivo-cuenca.png" },
+    { name: "El Nacional",            logo: "logos/el-nacional-ecuador.png" },
+    { name: "Emelec",                 logo: "logos/emelec.png" },
+    { name: "Independiente del Valle",logo: "logos/independiente-del-valle.png" },
+    { name: "LDU Quito",              logo: "logos/ldu-quito.png" },
+    { name: "Libertad",               logo: "logos/libertad.png" },
+    { name: "Macará",                 logo: "logos/macara.png" },
+    { name: "Manta FC",               logo: "logos/manta.png" },
+    { name: "Mushuc Runa",            logo: "logos/mushuc-runa.png" },
+    { name: "Orense SC",              logo: "logos/orense.png" },
+    { name: "Técnico Universitario",  logo: "logos/tecnico-universitario.png" },
+    { name: "Universidad Católica",   logo: "logos/universidad-catolica.png" },
+    { name: "Vinotinto FC",           logo: "logos/vinotinto.png" },
   ],
   "Copa do Mundo": [
     { name: "Alemanha",        logo: "logos/alemanha.png" },
@@ -300,7 +309,6 @@ const LEAGUE_LOGOS = {
   "NBA":            "logos/nba.png",
 };
 
-let currentSport  = "⚽ Futebol";
 let currentLeague = "Brasileirão";
 let currentMode   = "same";
 let selected      = { team1: null, team2: null };
@@ -308,69 +316,31 @@ let freeSelected  = { team1: null, team2: null };
 
 const ALL_TEAMS = Object.values(LEAGUES).flat();
 
-// ── Sport ──────────────────────────────────────────────
-function buildSportButtons() {
-  const container = document.getElementById("sportButtons");
-  container.innerHTML = "";
-  Object.keys(SPORTS).forEach(sport => {
-    const btn = document.createElement("button");
-    btn.className = "sport-btn" + (sport === currentSport ? " active" : "");
-    btn.textContent = sport;
-    btn.onclick = () => selectSport(sport);
-    container.appendChild(btn);
-  });
+// ── Live Preview ───────────────────────────────────────
+function updateLivePreview(slot, team) {
+  const logo = document.getElementById(`liveLogo${slot}`);
+  const placeholder = document.getElementById(`livePlaceholder${slot}`);
+  const name = document.getElementById(`liveName${slot}`);
+
+  if (team) {
+    logo.src = team.logo;
+    logo.style.display = "block";
+    placeholder.style.display = "none";
+    name.textContent = team.name;
+    name.classList.remove("placeholder");
+  } else {
+    logo.style.display = "none";
+    placeholder.style.display = "flex";
+    name.textContent = slot === 1 ? "Time da Casa" : "Time Visitante";
+    name.classList.add("placeholder");
+  }
 }
 
-function selectSport(sport) {
-  currentSport  = sport;
-  const leagues = SPORTS[sport];
-  currentLeague = leagues.length ? leagues[0] : null;
-  selected      = { team1: null, team2: null };
-  freeSelected  = { team1: null, team2: null };
-  resetUI();
-  buildSportButtons();
-  buildLeagueButtons();
-  buildGrids();
-  if (currentMode === "free") buildFreeSelects();
-}
 
-// ── Mode ───────────────────────────────────────────────
-function setMode(mode) {
-  currentMode = mode;
-  document.getElementById("sameModeSection").style.display = mode === "same" ? "block" : "none";
-  document.getElementById("freeModeSection").style.display = mode === "free" ? "block" : "none";
-  document.getElementById("modeSame").classList.toggle("active", mode === "same");
-  document.getElementById("modeFree").classList.toggle("active", mode === "free");
-  selected     = { team1: null, team2: null };
-  freeSelected = { team1: null, team2: null };
-  resetUI();
-  if (mode === "free") buildFreeSelects();
-}
-
-function resetUI() {
-  document.getElementById("selected1").innerHTML   = "Nenhum selecionado";
-  document.getElementById("selected2").innerHTML   = "Nenhum selecionado";
-  document.getElementById("preview").style.display = "none";
-  const btn = document.getElementById("generateBtn");
-  btn.disabled = true;
-  btn.classList.remove("ready");
-}
-
-// ── League ─────────────────────────────────────────────
 function buildLeagueButtons() {
-  const leagues   = SPORTS[currentSport];
-  const label     = document.getElementById("leagueLabel");
   const container = document.getElementById("leagueButtons");
   container.innerHTML = "";
-
-  if (!leagues || leagues.length === 0) {
-    label.style.display = "none";
-    container.innerHTML = `<p style="color:rgba(255,255,255,0.35);font-size:13px;padding:8px 0">Em breve...</p>`;
-    return;
-  }
-
-  label.style.display = "block";
-  leagues.forEach(league => {
+  Object.keys(LEAGUES).forEach(league => {
     const btn = document.createElement("button");
     btn.className = "league-btn" + (league === currentLeague ? " active" : "");
     btn.innerHTML = LEAGUE_LOGOS[league]
@@ -415,8 +385,27 @@ function selectTeam(slot, team) {
   selected[`team${slot}`] = team;
   document.getElementById(`selected${slot}`).innerHTML = `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
   document.querySelectorAll(`#grid${slot} .team-btn`).forEach(b => b.classList.toggle("active", b.dataset.name === team.name));
+  updateLivePreview(slot, team);
   const btn = document.getElementById("generateBtn");
   if (selected.team1 && selected.team2) { btn.disabled = false; btn.classList.add("ready"); }
+}
+
+// ── Mode ───────────────────────────────────────────────
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById("sameModeSection").style.display = mode === "same" ? "block" : "none";
+  document.getElementById("freeModeSection").style.display = mode === "free" ? "block" : "none";
+  document.getElementById("modeSame").classList.toggle("active", mode === "same");
+  document.getElementById("modeFree").classList.toggle("active", mode === "free");
+  selected     = { team1: null, team2: null };
+  freeSelected = { team1: null, team2: null };
+  document.getElementById("selected1").innerHTML = "Nenhum selecionado";
+  document.getElementById("selected2").innerHTML = "Nenhum selecionado";
+  document.getElementById("preview").style.display = "none";
+  const btn = document.getElementById("generateBtn");
+  btn.disabled = true;
+  btn.classList.remove("ready");
+  if (mode === "free") buildFreeSelects();
 }
 
 // ── Free mode ──────────────────────────────────────────
@@ -453,6 +442,7 @@ function selectFreeTeam(slot, team) {
   freeSelected[`team${slot}`] = team;
   document.getElementById(`freeSelected${slot}`).innerHTML = `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
   document.querySelectorAll(`#freeGrid${slot} .team-btn`).forEach(b => b.classList.toggle("active", b.dataset.name === team.name));
+  updateLivePreview(slot, team);
   const btn = document.getElementById("generateBtn");
   if (freeSelected.team1 && freeSelected.team2) { btn.disabled = false; btn.classList.add("ready"); }
 }
@@ -537,6 +527,5 @@ function toggleTools() {
 }
 
 // ── Init ───────────────────────────────────────────────
-buildSportButtons();
 buildLeagueButtons();
 buildGrids();
