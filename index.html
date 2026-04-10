@@ -14,6 +14,7 @@
 
   <div class="container">
 
+    <!-- Header -->
     <div class="header">
       <a href="https://ice.bet.br/" target="_blank" title="Acessar Ice.Bet">
         <img src="logos/icebet-logo.png" class="header-logo" alt="Ice.Bet" />
@@ -43,9 +44,26 @@
       </div>
     </div>
 
-    <div class="section-label">Esporte</div>
-    <div id="sportButtons" class="sport-selector"></div>
+    <!-- Preview ao vivo -->
+    <div class="live-preview">
+      <div class="live-team" id="liveTeam1">
+        <div class="live-logo-wrap">
+          <img id="liveLogo1" src="" alt="" style="display:none" />
+          <div class="live-logo-placeholder" id="livePlaceholder1">?</div>
+        </div>
+        <span class="live-name" id="liveName1">Time da Casa</span>
+      </div>
+      <div class="live-vs">VS</div>
+      <div class="live-team" id="liveTeam2">
+        <div class="live-logo-wrap">
+          <img id="liveLogo2" src="" alt="" style="display:none" />
+          <div class="live-logo-placeholder" id="livePlaceholder2">?</div>
+        </div>
+        <span class="live-name" id="liveName2">Time Visitante</span>
+      </div>
+    </div>
 
+    <!-- Modo -->
     <div class="mode-toggle">
       <button id="modeSame" class="mode-btn active" onclick="setMode('same')">Mesma Liga</button>
       <button id="modeFree" class="mode-btn" onclick="setMode('free')">Confronto Livre</button>
