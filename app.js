@@ -1,6 +1,5 @@
 const LEAGUES = {
   "Brasileirão": [
-    { name: "América Mineiro",      logo: "logos/america-mineiro.png" },
     { name: "América-MG",           logo: "logos/america-mg.png" },
     { name: "Athletic",             logo: "logos/athletic.png" },
     { name: "Athletico-PR",         logo: "logos/athletico-pr.png" },
