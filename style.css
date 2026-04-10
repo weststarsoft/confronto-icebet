@@ -134,7 +134,89 @@ body {
 .sport-btn.active { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.45); color: #ffffff; font-weight: 600; }
 .sport-btn:hover  { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff; }
 
-/* Mode toggle */
+/* Live Preview */
+.live-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,0.35) 0%, rgba(20,50,90,0.5) 50%, rgba(0,0,0,0.35) 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 24px 20px;
+  margin-bottom: 20px;
+  min-height: 110px;
+  position: relative;
+  overflow: hidden;
+}
+
+.live-preview::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(42,127,193,0.08) 50%, transparent 100%);
+  pointer-events: none;
+}
+
+.live-team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.live-logo-wrap {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.live-logo-wrap img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.live-logo-placeholder {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 2px dashed rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: rgba(255,255,255,0.2);
+  font-weight: bold;
+}
+
+.live-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+.live-name.placeholder {
+  color: rgba(255,255,255,0.25);
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.live-vs {
+  font-size: 22px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 3px;
+  padding: 0 24px;
+  text-shadow: 0 0 20px rgba(42,127,193,0.6);
+}
+
+
 .mode-toggle {
   display: flex;
   gap: 8px;
