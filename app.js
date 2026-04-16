@@ -34,7 +34,7 @@ async function searchTeam(slot) {
 
       // Filtra só times com logo e ordena por nome
       const filtered = teams
-        .filter(t => t.strTeamBadge)
+        .filter(t => t.strBadge)
         .sort((a, b) => a.strTeam.localeCompare(b.strTeam));
 
       status.textContent = `${filtered.length} time(s) encontrado(s)`;
@@ -42,7 +42,7 @@ async function searchTeam(slot) {
       filtered.forEach(t => {
         const team = {
           name: t.strTeam,
-          logo: t.strTeamBadge + "/tiny"
+          logo: t.strBadge
         };
         const btn = document.createElement("button");
         btn.className = "team-btn";
