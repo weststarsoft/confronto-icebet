@@ -1,61 +1,50 @@
 const ODDS_KEY = "9b4192d616b4e5857af1a2a61e61120b";
 
-// Ligas principais com seus IDs na The Odds API
 const SPORTS = [
-  "soccer_epl",
-  "soccer_spain_la_liga",
-  "soccer_italy_serie_a",
-  "soccer_germany_bundesliga",
-  "soccer_france_ligue_one",
-  "soccer_uefa_champs_league",
-  "soccer_uefa_europa_league",
-  "soccer_conmebol_libertadores",
-  "soccer_brazil_campeonato",
-  "soccer_usa_mls",
-  "soccer_portugal_primeira_liga",
-  "soccer_argentina_primera_division",
+  { key: "soccer_epl",                          name: "Premier League" },
+  { key: "soccer_spain_la_liga",                name: "La Liga" },
+  { key: "soccer_italy_serie_a",                name: "Serie A" },
+  { key: "soccer_germany_bundesliga",           name: "Bundesliga" },
+  { key: "soccer_france_ligue_one",             name: "Ligue 1" },
+  { key: "soccer_uefa_champs_league",           name: "Champions League" },
+  { key: "soccer_uefa_europa_league",           name: "Liga Europa" },
+  { key: "soccer_conmebol_libertadores",        name: "Copa Libertadores" },
+  { key: "soccer_brazil_campeonato",            name: "Brasileirão" },
+  { key: "soccer_usa_mls",                      name: "MLS" },
+  { key: "soccer_portugal_primeira_liga",       name: "Primeira Liga" },
+  { key: "soccer_argentina_primera_division",   name: "Liga Profesional" },
 ];
 
-const SPORT_NAMES = {
-  "soccer_epl": "Premier League",
-  "soccer_spain_la_liga": "La Liga",
-  "soccer_italy_serie_a": "Serie A",
-  "soccer_germany_bundesliga": "Bundesliga",
-  "soccer_france_ligue_one": "Ligue 1",
-  "soccer_uefa_champs_league": "Champions League",
-  "soccer_uefa_europa_league": "Liga Europa",
-  "soccer_conmebol_libertadores": "Copa Libertadores",
-  "soccer_brazil_campeonato": "Brasileirão",
-  "soccer_usa_mls": "MLS",
-  "soccer_portugal_primeira_liga": "Primeira Liga",
-  "soccer_argentina_primera_division": "Liga Profesional",
-};
-
 export default async function handler(req, res) {
-  const today     = new Date();
-  const tomorrow  = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
+  // Janela de 2 dias: hoje + amanhã
+  const now      = new Date();
+  const start    = new Date(now);
+  start.setHours(0, 0, 0, 0);
+  const end      = new Date(now);
+  end.setHours(47, 59, 59, 999);
 
-  const dateFrom = today.toISOString();
-  const dateTo   = tomorrow.toISOString();
+  const dateFrom = start.toISOString();
+  const dateTo   = end.toISOString();
 
   try {
     const results = await Promise.all(
       SPORTS.map(async sport => {
-        const r = await fetch(
-          `https://api.the-odds-api.com/v4/sports/${sport}/odds/?apiKey=${ODDS_KEY}&regions=eu&markets=h2h&dateFormat=iso&commenceTimeFrom=${dateFrom}&commenceTimeTo=${dateTo}`,
-        );
-        if (!r.ok) return [];
-        const data = await r.json();
-        return (Array.isArray(data) ? data : []).map(m => ({
-          id:          m.id,
-          competition: SPORT_NAMES[sport],
-          utcDate:     m.commence_time,
-          status:      "TIMED",
-          home:        { name: m.home_team },
-          away:        { name: m.away_team },
-          score:       { home: null, away: null }
-        }));
+        try {
+          const r = await fetch(
+            `https://api.the-odds-api.com/v4/sports/${sport.key}/odds/?apiKey=${ODDS_KEY}&regions=eu&markets=h2h&dateFormat=iso&commenceTimeFrom=${dateFrom}&commenceTimeTo=${dateTo}&oddsFormat=decimal`,
+          );
+          if (!r.ok) return [];
+          const data = await r.json();
+          return (Array.isArray(data) ? data : []).map(m => ({
+            id:          m.id,
+            competition: sport.name,
+            utcDate:     m.commence_time,
+            status:      "TIMED",
+            home:        { name: m.home_team },
+            away:        { name: m.away_team },
+            score:       { home: null, away: null }
+          }));
+        } catch { return []; }
       })
     );
 
@@ -64,7 +53,7 @@ export default async function handler(req, res) {
       .sort((a, b) => new Date(a.utcDate) - new Date(b.utcDate));
 
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Cache-Control", "s-maxage=300");
+    res.setHeader("Cache-Control", "s-maxage=600");
     res.status(200).json({ matches });
 
   } catch (e) {
