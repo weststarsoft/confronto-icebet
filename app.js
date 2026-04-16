@@ -299,11 +299,11 @@ async function loadFixtures() {
         item.className = "fixture-item";
         item.innerHTML = `
           <div class="fixture-teams">
-            ${m.home.crest ? `<img src="${m.home.crest}" alt="${m.home.name}" class="fixture-crest" />` : ""}
+            <div class="fixture-crest-wrap">${m.home.crest ? `<img src="${m.home.crest}" alt="${m.home.name}" class="fixture-crest" />` : ""}</div>
             <span>${m.home.name}</span>
             <span class="fixture-vs">vs</span>
             <span>${m.away.name}</span>
-            ${m.away.crest ? `<img src="${m.away.crest}" alt="${m.away.name}" class="fixture-crest" />` : ""}
+            <div class="fixture-crest-wrap">${m.away.crest ? `<img src="${m.away.crest}" alt="${m.away.name}" class="fixture-crest" />` : ""}</div>
           </div>
           <span class="fixture-score ${isLive ? "live" : ""}">${score}</span>
           <button class="fixture-use-btn" onclick="useFixture('${m.home.name.replace(/'/g,"\\'")}','${m.away.name.replace(/'/g,"\\'")}')">Usar</button>
