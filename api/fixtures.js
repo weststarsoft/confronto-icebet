@@ -94,12 +94,15 @@ export default async function handler(req, res) {
     oddsResults.flat().forEach(m => allMatches.push(m));
   } catch {}
 
-  // Remove duplicatas
+  // Remove duplicatas e filtra só jogos futuros ou ao vivo
   const seen = new Set();
   const unique = allMatches.filter(m => {
     const key = `${m.home.name}-${m.away.name}-${m.utcDate?.slice(0,13)}`;
     if (seen.has(key)) return false;
     seen.add(key);
+    // Remove jogos já finalizados ou que já passaram
+    if (m.status === "FINISHED") return false;
+    if (m.status === "TIMED" && new Date(m.utcDate) < now) return false;
     return true;
   });
 
@@ -118,4 +121,4 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Cache-Control", "s-maxage=300");
   res.status(200).json({ matches });
-} 
+}
