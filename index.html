@@ -21,7 +21,7 @@
       </a>
       <div class="header-text">
         <h1>Gerador de Confronto</h1>
-        <p>Selecione a liga e os times para gerar a imagem</p>
+        <p>Busque os times e gere a imagem</p>
       </div>
       <div class="tools-wrapper">
         <button class="tools-btn" onclick="toggleTools()" title="Ferramentas">
@@ -46,63 +46,42 @@
 
     <!-- Preview ao vivo -->
     <div class="live-preview">
-      <div class="live-team" id="liveTeam1">
+      <div class="live-team">
         <div class="live-logo-wrap">
           <img id="liveLogo1" src="" alt="" style="display:none" />
           <div class="live-logo-placeholder" id="livePlaceholder1">?</div>
         </div>
-        <span class="live-name" id="liveName1">Time da Casa</span>
+        <span class="live-name placeholder" id="liveName1">Time da Casa</span>
       </div>
       <div class="live-vs">VS</div>
-      <div class="live-team" id="liveTeam2">
+      <div class="live-team">
         <div class="live-logo-wrap">
           <img id="liveLogo2" src="" alt="" style="display:none" />
           <div class="live-logo-placeholder" id="livePlaceholder2">?</div>
         </div>
-        <span class="live-name" id="liveName2">Time Visitante</span>
+        <span class="live-name placeholder" id="liveName2">Time Visitante</span>
       </div>
     </div>
 
-    <!-- Modo -->
-    <div class="mode-toggle">
-      <button id="modeSame" class="mode-btn active" onclick="setMode('same')">Mesma Liga</button>
-      <button id="modeFree" class="mode-btn" onclick="setMode('free')">Confronto Livre</button>
-    </div>
+    <!-- Busca dos times -->
+    <div class="selectors">
 
-    <!-- Modo Mesma Liga -->
-    <div id="sameModeSection">
-      <div class="section-label" id="leagueLabel">Liga</div>
-      <div id="leagueButtons" class="league-selector"></div>
-      <div class="selectors">
-        <div class="team-box">
-          <div class="box-label">Time da Casa</div>
-          <div class="selected-team" id="selected1">Nenhum selecionado</div>
-          <div class="team-grid" id="grid1"></div>
-        </div>
-        <div class="team-box">
-          <div class="box-label">Time Visitante</div>
-          <div class="selected-team" id="selected2">Nenhum selecionado</div>
-          <div class="team-grid" id="grid2"></div>
-        </div>
+      <div class="team-box">
+        <div class="box-label">Time da Casa</div>
+        <div class="selected-team" id="selected1">Nenhum selecionado</div>
+        <input type="text" id="search1" class="team-search" placeholder="🔍 Buscar time..." oninput="searchTeam(1)" autocomplete="off" />
+        <div id="searchStatus1" class="search-status"></div>
+        <div class="team-grid" id="grid1"></div>
       </div>
-    </div>
 
-    <!-- Modo Livre -->
-    <div id="freeModeSection" style="display:none">
-      <div class="selectors">
-        <div class="team-box">
-          <div class="box-label">Time da Casa</div>
-          <div class="selected-team" id="freeSelected1">Nenhum selecionado</div>
-          <input type="text" id="freeSearch1" class="team-search" placeholder="🔍 Buscar time..." oninput="searchTeam(1)" />
-          <div class="team-grid" id="freeGrid1"></div>
-        </div>
-        <div class="team-box">
-          <div class="box-label">Time Visitante</div>
-          <div class="selected-team" id="freeSelected2">Nenhum selecionado</div>
-          <input type="text" id="freeSearch2" class="team-search" placeholder="🔍 Buscar time..." oninput="searchTeam(2)" />
-          <div class="team-grid" id="freeGrid2"></div>
-        </div>
+      <div class="team-box">
+        <div class="box-label">Time Visitante</div>
+        <div class="selected-team" id="selected2">Nenhum selecionado</div>
+        <input type="text" id="search2" class="team-search" placeholder="🔍 Buscar time..." oninput="searchTeam(2)" autocomplete="off" />
+        <div id="searchStatus2" class="search-status"></div>
+        <div class="team-grid" id="grid2"></div>
       </div>
+
     </div>
 
     <button id="generateBtn" disabled onclick="generateImage()">⚽ Gerar Imagem</button>
