@@ -1,9 +1,10 @@
 export default async function handler(req, res) {
   const today = new Date().toISOString().split("T")[0];
+  const date  = req.query.date || today;
 
   try {
     const response = await fetch(
-      `https://free-api-live-football-data.p.rapidapi.com/football-current-live`,
+      `https://free-api-live-football-data.p.rapidapi.com/football-get-matches-by-date?date=${date}`,
       {
         headers: {
           "x-rapidapi-host": "free-api-live-football-data.p.rapidapi.com",
