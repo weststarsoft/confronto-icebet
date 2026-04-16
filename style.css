@@ -75,7 +75,126 @@ body {
 .tool-desc { font-size: 11px; color: rgba(255,255,255,0.45); }
 .tool-info { display: flex; flex-direction: column; gap: 2px; }
 
-/* Live Preview */
+/* Fixtures Panel */
+.fixtures-panel {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(6px);
+}
+
+.fixtures-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.fixtures-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.3px;
+}
+
+.fixtures-refresh {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.6);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.fixtures-refresh:hover { background: rgba(255,255,255,0.1); color: #fff; transform: rotate(180deg); }
+
+.fixtures-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.2) transparent;
+}
+
+.fixtures-loading {
+  color: rgba(255,255,255,0.4);
+  font-size: 13px;
+  text-align: center;
+  padding: 16px 0;
+}
+
+.fixture-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  cursor: pointer;
+  transition: all 0.15s;
+  gap: 8px;
+}
+.fixture-item:hover { background: rgba(100,180,255,0.12); border-color: rgba(100,180,255,0.3); }
+
+.fixture-teams {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  font-size: 12px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.fixture-vs {
+  color: rgba(255,255,255,0.4);
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.fixture-score {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(255,255,255,0.1);
+  padding: 2px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.fixture-time {
+  font-size: 11px;
+  color: #ff4444;
+  font-weight: 700;
+  white-space: nowrap;
+  min-width: 36px;
+  text-align: right;
+}
+
+.fixture-use-btn {
+  background: rgba(42,127,193,0.3);
+  border: 1px solid rgba(42,127,193,0.5);
+  color: #7bc8ff;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.fixture-use-btn:hover { background: rgba(42,127,193,0.6); color: #fff; }
+
+
 .live-preview {
   display: flex; align-items: center; justify-content: center;
   background: linear-gradient(90deg, rgba(0,0,0,0.35) 0%, rgba(20,50,90,0.5) 50%, rgba(0,0,0,0.35) 100%);
