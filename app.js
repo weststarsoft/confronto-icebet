@@ -1,4 +1,4 @@
-const API = "https://www.thesportsdb.com/api/v1/json/1/searchteams.php?t=";
+const API = "/api/search?q=";
 
 let selected = { team1: null, team2: null };
 let searchTimers = {};
