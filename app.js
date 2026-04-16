@@ -41,7 +41,7 @@ async function searchTeam(slot) {
       filtered.forEach(t => {
         const team = {
           name: t.strTeam,
-          logo: t.strBadge
+          logo: `/api/search?img=${encodeURIComponent(t.strBadge)}`
         };
         const btn = document.createElement("button");
         btn.className = "team-btn";
