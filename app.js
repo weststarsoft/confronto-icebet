@@ -447,10 +447,13 @@ async function loadFixtures() {
 
       matches.forEach(m => {
         const utc    = new Date(m.utcDate);
+        const hoje   = new Date().toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" });
+        const dataJogo = utc.toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" });
         const time   = utc.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", timeZone: "America/Sao_Paulo" });
+        const label  = dataJogo === hoje ? time : `${dataJogo.slice(0,5)} ${time}`;
         const isLive = m.status === "IN_PLAY" || m.status === "PAUSED";
         const isDone = m.status === "FINISHED";
-        const score  = isDone || isLive ? `${m.score?.home ?? 0} - ${m.score?.away ?? 0}` : time;
+        const score  = isDone || isLive ? `${m.score?.home ?? 0} - ${m.score?.away ?? 0}` : label;
         const dot    = isLive ? "🔴" : "⏰";
 
         const homeLogo = getLocalLogo(m.home.name);
