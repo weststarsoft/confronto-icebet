@@ -287,24 +287,24 @@ async function loadFixtures() {
       list.appendChild(header);
 
       matches.forEach(m => {
-        const utc    = new Date(m.utcDate);
-        const time   = utc.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", timeZone: "America/Sao_Paulo" });
         const isLive = m.status === "IN_PLAY" || m.status === "PAUSED";
         const isDone = m.status === "FINISHED";
         const score  = isDone || isLive
           ? `${m.score?.home ?? 0} - ${m.score?.away ?? 0}`
           : time;
+        const dot = isLive ? "🔴" : "⏰";
 
         const item = document.createElement("div");
         item.className = "fixture-item";
         item.innerHTML = `
+          <span class="fixture-status">${dot}</span>
+          <div class="fixture-crest-wrap">${m.home.crest ? `<img src="${m.home.crest}" class="fixture-crest" />` : ""}</div>
           <div class="fixture-teams">
-            <div class="fixture-crest-wrap">${m.home.crest ? `<img src="${m.home.crest}" alt="${m.home.name}" class="fixture-crest" />` : ""}</div>
-            <span>${m.home.name}</span>
+            <span class="fixture-team-name">${m.home.name}</span>
             <span class="fixture-vs">vs</span>
-            <span>${m.away.name}</span>
-            <div class="fixture-crest-wrap">${m.away.crest ? `<img src="${m.away.crest}" alt="${m.away.name}" class="fixture-crest" />` : ""}</div>
+            <span class="fixture-team-name">${m.away.name}</span>
           </div>
+          <div class="fixture-crest-wrap">${m.away.crest ? `<img src="${m.away.crest}" class="fixture-crest" />` : ""}</div>
           <span class="fixture-score ${isLive ? "live" : ""}">${score}</span>
           <button class="fixture-use-btn" onclick="useFixture('${m.home.name.replace(/'/g,"\\'")}','${m.away.name.replace(/'/g,"\\'")}')">Usar</button>
         `;
