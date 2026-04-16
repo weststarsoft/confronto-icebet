@@ -1,90 +1,189 @@
 const API = "/api/search?q=";
 
+// Lista local de times com nome exato da API
+const TEAMS_DB = [
+  // Brasileirão
+  "Flamengo","Palmeiras","Corinthians","São Paulo FC","Grêmio","Internacional",
+  "Atletico Mineiro","Botafogo","Fluminense","Vasco da Gama","Cruzeiro","Santos FC",
+  "Bahia","Fortaleza EC","Athletico Paranaense","Red Bull Bragantino","Ceara",
+  "Cuiaba","Sport Recife","Goias","América Mineiro","Coritiba","Chapecoense",
+  "Juventude","Avai","CRB","Nautico","Ponte Preta","Vila Nova","Novorizontino",
+  // La Liga
+  "Real Madrid","Barcelona","Atletico Madrid","Sevilla","Valencia","Villarreal",
+  "Real Betis","Athletic Bilbao","Real Sociedad","Osasuna","Girona","Las Palmas",
+  "Getafe","Rayo Vallecano","Celta Vigo","Alaves","Mallorca","Leganes","Espanyol",
+  // Premier League
+  "Arsenal","Chelsea","Liverpool","Manchester City","Manchester United",
+  "Tottenham Hotspur","Newcastle United","West Ham United","Aston Villa",
+  "Brighton","Fulham","Brentford","Crystal Palace","Everton","Wolves",
+  "Nottingham Forest","Bournemouth","Southampton","Ipswich Town","Leicester City",
+  // Serie A
+  "Juventus","Inter Milan","AC Milan","Napoli","Roma","Lazio","Atalanta",
+  "Fiorentina","Bologna","Torino","Udinese","Genoa","Cagliari","Lecce",
+  "Empoli","Verona","Venezia","Como","Parma","Monza",
+  // Bundesliga
+  "Bayern Munich","Borussia Dortmund","Bayer Leverkusen","RB Leipzig",
+  "Eintracht Frankfurt","Wolfsburg","Freiburg","Union Berlin","Hoffenheim",
+  "Werder Bremen","Mainz","Augsburg","Stuttgart","Borussia Monchengladbach",
+  "St Pauli","Heidenheim","Holstein Kiel","FC Köln",
+  // Ligue 1
+  "Paris Saint-Germain","Olympique Marseille","Monaco","Olympique Lyonnais",
+  "Lille","Nice","Lens","Rennes","Strasbourg","Nantes","Reims","Toulouse",
+  "Brest","Le Havre","Auxerre","Angers","Montpellier","Saint-Etienne",
+  // Primeira Liga
+  "Benfica","Porto","Sporting CP","Braga","Vitoria Guimaraes","Famalicao",
+  "Moreirense","Arouca","Estoril Praia","Casa Pia","Rio Ave","Farense",
+  // MLS
+  "Inter Miami","LA Galaxy","Los Angeles FC","Seattle Sounders",
+  "Portland Timbers","Atlanta United","New York City FC","New York Red Bulls",
+  "Toronto FC","Philadelphia Union","New England Revolution","Orlando City",
+  "Nashville SC","Austin FC","Charlotte FC","Chicago Fire","Colorado Rapids",
+  "Columbus Crew","DC United","Houston Dynamo","Minnesota United",
+  "Real Salt Lake","San Jose Earthquakes","Sporting Kansas City",
+  "Vancouver Whitecaps","Montreal","St Louis City","San Diego FC",
+  // Liga Profesional Argentina
+  "Boca Juniors","River Plate","Racing Club","Independiente","San Lorenzo",
+  "Estudiantes","Lanus","Velez Sarsfield","Tigre","Huracan","Banfield",
+  "Godoy Cruz","Colon","Talleres","Belgrano","Rosario Central",
+  // NBA
+  "Los Angeles Lakers","Chicago Bulls","Miami Heat","Golden State Warriors",
+  "Boston Celtics","Brooklyn Nets","New York Knicks","Milwaukee Bucks",
+  "Phoenix Suns","Dallas Mavericks","Denver Nuggets","Philadelphia 76ers",
+  "Toronto Raptors","Atlanta Hawks","Cleveland Cavaliers","Charlotte Hornets",
+  "Indiana Pacers","Detroit Pistons","Orlando Magic","Washington Wizards",
+  "Memphis Grizzlies","New Orleans Pelicans","Oklahoma City Thunder",
+  "San Antonio Spurs","Utah Jazz","Sacramento Kings","Portland Trail Blazers",
+  "Minnesota Timberwolves","Houston Rockets","Los Angeles Clippers",
+  // Copa do Mundo
+  "Brazil","Argentina","France","Germany","Spain","England","Portugal",
+  "Netherlands","Belgium","Uruguay","Mexico","United States","Japan",
+  "Morocco","Croatia","Senegal","Australia","Colombia","Chile","Ecuador",
+];
+
 let selected = { team1: null, team2: null };
 let searchTimers = {};
 
-// ── Search ─────────────────────────────────────────────
 async function searchTeam(slot) {
-  const query  = document.getElementById(`search${slot}`).value.trim();
+  const raw    = document.getElementById(`search${slot}`).value.trim();
+  const query  = raw.toLowerCase();
   const grid   = document.getElementById(`grid${slot}`);
   const status = document.getElementById(`searchStatus${slot}`);
 
   grid.innerHTML = "";
   clearTimeout(searchTimers[slot]);
 
-  if (query.length < 2) {
-    status.textContent = "";
-    return;
+  if (query.length < 2) { status.textContent = ""; return; }
+
+  // Filtra localmente por correspondência parcial
+  const matches = TEAMS_DB.filter(t => t.toLowerCase().includes(query));
+
+  if (matches.length > 0) {
+    status.textContent = `${matches.length} time(s) encontrado(s)`;
+    renderLocalResults(slot, matches, grid);
+  } else {
+    // Fallback: busca na API
+    status.textContent = "Buscando...";
+    searchTimers[slot] = setTimeout(() => fetchFromAPI(slot, raw, grid, status), 500);
   }
+}
 
-  status.textContent = "Buscando...";
+function renderLocalResults(slot, names, grid) {
+  grid.innerHTML = "";
+  names.forEach(name => {
+    const btn = document.createElement("button");
+    btn.className = "team-btn loading-team";
+    btn.dataset.name = name;
+    btn.innerHTML = `<span class="team-btn-name">${name}</span>`;
+    btn.onclick = () => fetchAndSelect(slot, name, btn, grid);
+    grid.appendChild(btn);
+  });
 
-  searchTimers[slot] = setTimeout(async () => {
+  // Carrega logos em background
+  names.forEach(async name => {
     try {
-      const res  = await fetch(API + encodeURIComponent(query));
+      const res  = await fetch(API + encodeURIComponent(name));
       const data = await res.json();
-      const teams = data.teams;
-
-      grid.innerHTML = "";
-
-      if (!teams || teams.length === 0) {
-        status.textContent = "Nenhum time encontrado";
-        return;
+      if (data.teams && data.teams[0] && data.teams[0].strBadge) {
+        const badge = data.teams[0].strBadge;
+        const logoUrl = `/api/search?img=${encodeURIComponent(badge)}`;
+        const btn = grid.querySelector(`[data-name="${CSS.escape(name)}"]`);
+        if (btn) {
+          btn.innerHTML = `<img src="${logoUrl}" alt="${name}" onerror="this.style.display='none'" />${name}`;
+          btn.onclick = () => selectTeam(slot, { name, logo: logoUrl }, btn, grid);
+        }
       }
+    } catch {}
+  });
+}
 
-      const filtered = teams
-        .filter(t => t.strBadge)
-        .sort((a, b) => a.strTeam.localeCompare(b.strTeam));
+async function fetchFromAPI(slot, query, grid, status) {
+  try {
+    const res  = await fetch(API + encodeURIComponent(query));
+    const data = await res.json();
+    const teams = data.teams;
 
-      status.textContent = `${filtered.length} time(s) encontrado(s)`;
-
-      filtered.forEach(t => {
-        const team = {
-          name: t.strTeam,
-          logo: `/api/search?img=${encodeURIComponent(t.strBadge)}`
-        };
-        const btn = document.createElement("button");
-        btn.className = "team-btn";
-        btn.dataset.name = team.name;
-        btn.innerHTML = `<img src="${team.logo}" alt="${team.name}" onerror="this.style.display='none'" />${team.name}`;
-        btn.onclick = () => selectTeam(slot, team, btn, grid);
-        grid.appendChild(btn);
-      });
-
-    } catch (e) {
-      status.textContent = "Erro na busca. Tente novamente.";
+    grid.innerHTML = "";
+    if (!teams || teams.length === 0) {
+      status.textContent = "Nenhum time encontrado";
+      return;
     }
-  }, 500);
+
+    const filtered = teams.filter(t => t.strBadge);
+    status.textContent = `${filtered.length} time(s) encontrado(s)`;
+
+    filtered.forEach(t => {
+      const team = { name: t.strTeam, logo: `/api/search?img=${encodeURIComponent(t.strBadge)}` };
+      const btn = document.createElement("button");
+      btn.className = "team-btn";
+      btn.dataset.name = team.name;
+      btn.innerHTML = `<img src="${team.logo}" alt="${team.name}" onerror="this.style.display='none'" />${team.name}`;
+      btn.onclick = () => selectTeam(slot, team, btn, grid);
+      grid.appendChild(btn);
+    });
+  } catch {
+    status.textContent = "Erro na busca. Tente novamente.";
+  }
+}
+
+async function fetchAndSelect(slot, name, btn, grid) {
+  try {
+    const res  = await fetch(API + encodeURIComponent(name));
+    const data = await res.json();
+    if (data.teams && data.teams[0] && data.teams[0].strBadge) {
+      const logo = `/api/search?img=${encodeURIComponent(data.teams[0].strBadge)}`;
+      selectTeam(slot, { name, logo }, btn, grid);
+    } else {
+      selectTeam(slot, { name, logo: "" }, btn, grid);
+    }
+  } catch {
+    selectTeam(slot, { name, logo: "" }, btn, grid);
+  }
 }
 
 function selectTeam(slot, team, btnEl, grid) {
   selected[`team${slot}`] = team;
-
   grid.querySelectorAll(".team-btn").forEach(b => b.classList.remove("active"));
   btnEl.classList.add("active");
-
   document.getElementById(`selected${slot}`).innerHTML =
-    `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
-
+    team.logo ? `<img src="${team.logo}" alt="${team.name}" />${team.name}` : team.name;
   updateLivePreview(slot, team);
-
   const btn = document.getElementById("generateBtn");
-  if (selected.team1 && selected.team2) {
-    btn.disabled = false;
-    btn.classList.add("ready");
-  }
+  if (selected.team1 && selected.team2) { btn.disabled = false; btn.classList.add("ready"); }
 }
 
-// ── Live Preview ───────────────────────────────────────
 function updateLivePreview(slot, team) {
   const logo        = document.getElementById(`liveLogo${slot}`);
   const placeholder = document.getElementById(`livePlaceholder${slot}`);
   const name        = document.getElementById(`liveName${slot}`);
-
-  if (team) {
+  if (team && team.logo) {
     logo.src = team.logo;
     logo.style.display = "block";
     placeholder.style.display = "none";
+    name.textContent = team.name;
+    name.classList.remove("placeholder");
+  } else if (team) {
+    logo.style.display = "none";
+    placeholder.style.display = "flex";
     name.textContent = team.name;
     name.classList.remove("placeholder");
   } else {
@@ -95,7 +194,6 @@ function updateLivePreview(slot, team) {
   }
 }
 
-// ── Image generation ───────────────────────────────────
 function loadImage(src) {
   return new Promise(resolve => {
     const img = new Image();
@@ -127,7 +225,6 @@ async function generateImage() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   const [img1, img2] = await Promise.all([loadImage(t1.logo), loadImage(t2.logo)]);
-
   const maxSize = 70, y = 98, x1 = 302, vsGap = 32;
 
   function fitLogo(img, x) {
@@ -167,7 +264,6 @@ function downloadImage() {
   link.click();
 }
 
-// ── Tools panel ────────────────────────────────────────
 function toggleTools() {
   const panel = document.getElementById("toolsPanel");
   panel.classList.toggle("open");
