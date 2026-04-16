@@ -1,10 +1,8 @@
 export default async function handler(req, res) {
-  const today = new Date().toISOString().split("T")[0];
-  const date  = req.query.date || today;
-
   try {
+    // Busca jogos ao vivo
     const response = await fetch(
-      `https://free-api-live-football-data.p.rapidapi.com/football-get-matches-by-date?date=${date}`,
+      `https://free-api-live-football-data.p.rapidapi.com/football-current-live`,
       {
         headers: {
           "x-rapidapi-host": "free-api-live-football-data.p.rapidapi.com",
@@ -19,7 +17,7 @@ export default async function handler(req, res) {
 
     const data = await response.json();
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Cache-Control", "s-maxage=300");
+    res.setHeader("Cache-Control", "s-maxage=60");
     res.status(200).json(data);
   } catch (e) {
     res.status(500).json({ error: e.message });
