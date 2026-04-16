@@ -4,7 +4,7 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch(
-      `https://www.thesportsdb.com/api/v1/json/1/searchteams.php?t=${encodeURIComponent(q)}`,
+      `https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=${encodeURIComponent(q)}`,
       {
         headers: {
           "User-Agent": "Mozilla/5.0",
