@@ -64,9 +64,9 @@ let selected = { team1: null, team2: null };
 let searchTimers = {};
 
 async function searchTeam(slot) {
-  const raw    = document.getElementById(`search${slot}`).value.trim();
-  const query  = raw.toLowerCase();
-  const grid   = document.getElementById(`grid${slot}`);
+  const raw   = document.getElementById(`search${slot}`).value.trim();
+  const query = raw.toLowerCase();
+  const grid  = document.getElementById(`grid${slot}`);
   const status = document.getElementById(`searchStatus${slot}`);
 
   grid.innerHTML = "";
@@ -74,14 +74,31 @@ async function searchTeam(slot) {
 
   if (query.length < 2) { status.textContent = ""; return; }
 
-  // Filtra localmente por correspondência parcial
   const matches = TEAMS_DB.filter(t => t.toLowerCase().includes(query));
 
   if (matches.length > 0) {
     status.textContent = `${matches.length} time(s) encontrado(s)`;
-    renderLocalResults(slot, matches, grid);
+    grid.innerHTML = "";
+    matches.forEach(name => {
+      const btn = document.createElement("button");
+      btn.className = "team-btn";
+      btn.dataset.name = name;
+      btn.innerHTML = `<span style="width:22px;height:22px;display:inline-block;flex-shrink:0"></span>${name}`;
+      btn.onclick = () => fetchAndSelect(slot, name, btn, grid);
+      grid.appendChild(btn);
+
+      // Carrega logo em background
+      fetch(API + encodeURIComponent(name))
+        .then(r => r.json())
+        .then(data => {
+          if (data.teams && data.teams[0] && data.teams[0].strBadge) {
+            const logoUrl = `/api/search?img=${encodeURIComponent(data.teams[0].strBadge)}`;
+            const b = grid.querySelector(`[data-name="${name.replace(/"/g, '\\"')}"]`);
+            if (b) b.innerHTML = `<img src="${logoUrl}" alt="${name}" onerror="this.style.display='none'" />${name}`;
+          }
+        }).catch(() => {});
+    });
   } else {
-    // Fallback: busca na API
     status.textContent = "Buscando...";
     searchTimers[slot] = setTimeout(() => fetchFromAPI(slot, raw, grid, status), 500);
   }
