@@ -17,19 +17,15 @@ const SPORTS = [
 ];
 
 export default async function handler(req, res) {
-  // Próximas 24h a partir de agora
-  const now  = new Date();
-  const end  = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-
-  const dateFrom = now.toISOString();
-  const dateTo   = end.toISOString();
+  const now = new Date();
+  const end = new Date(now.getTime() + 48 * 60 * 60 * 1000);
 
   try {
     const results = await Promise.all(
       SPORTS.map(async sport => {
         try {
           const r = await fetch(
-            `https://api.the-odds-api.com/v4/sports/${sport.key}/odds/?apiKey=${ODDS_KEY}&regions=eu&markets=h2h&dateFormat=iso&commenceTimeFrom=${dateFrom}&commenceTimeTo=${dateTo}&oddsFormat=decimal`
+            `https://api.the-odds-api.com/v4/sports/${sport.key}/odds/?apiKey=${ODDS_KEY}&regions=eu&markets=h2h&dateFormat=iso&commenceTimeFrom=${now.toISOString()}&commenceTimeTo=${end.toISOString()}&oddsFormat=decimal`
           );
           if (!r.ok) return [];
           const data = await r.json();
@@ -51,7 +47,7 @@ export default async function handler(req, res) {
 
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Cache-Control", "s-maxage=300");
-    res.status(200).json({ matches, debug: { dateFrom, dateTo, total: matches.length } });
+    res.status(200).json({ matches });
 
   } catch (e) {
     res.status(500).json({ error: e.message });
