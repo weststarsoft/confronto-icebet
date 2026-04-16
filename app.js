@@ -1,4 +1,4 @@
-const API = "https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=";
+const API = "https://corsproxy.io/?https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=";
 
 let selected = { team1: null, team2: null };
 let searchTimers = {};
