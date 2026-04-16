@@ -1,5 +1,23 @@
 export default async function handler(req, res) {
-  const { q } = req.query;
+  const { q, img } = req.query;
+
+  // Proxy de imagem
+  if (img) {
+    try {
+      const response = await fetch(decodeURIComponent(img));
+      const buffer = await response.arrayBuffer();
+      const contentType = response.headers.get("content-type") || "image/png";
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Content-Type", contentType);
+      res.setHeader("Cache-Control", "s-maxage=86400");
+      res.send(Buffer.from(buffer));
+    } catch (e) {
+      res.status(500).json({ error: "Image fetch failed" });
+    }
+    return;
+  }
+
+  // Busca de times
   if (!q) return res.status(400).json({ error: "Missing query" });
 
   try {
