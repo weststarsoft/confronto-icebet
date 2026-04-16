@@ -32,7 +32,6 @@ async function searchTeam(slot) {
         return;
       }
 
-      // Filtra só times com logo e ordena por nome
       const filtered = teams
         .filter(t => t.strBadge)
         .sort((a, b) => a.strTeam.localeCompare(b.strTeam));
@@ -61,18 +60,14 @@ async function searchTeam(slot) {
 function selectTeam(slot, team, btnEl, grid) {
   selected[`team${slot}`] = team;
 
-  // Highlight
   grid.querySelectorAll(".team-btn").forEach(b => b.classList.remove("active"));
   btnEl.classList.add("active");
 
-  // Selected display
   document.getElementById(`selected${slot}`).innerHTML =
     `<img src="${team.logo}" alt="${team.name}" />${team.name}`;
 
-  // Live preview
   updateLivePreview(slot, team);
 
-  // Enable button
   const btn = document.getElementById("generateBtn");
   if (selected.team1 && selected.team2) {
     btn.disabled = false;
