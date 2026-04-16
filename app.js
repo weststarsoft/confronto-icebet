@@ -1,6 +1,5 @@
 const API = "/api/search?q=";
 
-// Lista local de times com nome exato da API
 const TEAMS_DB = [
   // Brasileirão
   "Flamengo","Palmeiras","Corinthians","São Paulo FC","Grêmio","Internacional",
@@ -41,7 +40,7 @@ const TEAMS_DB = [
   "Columbus Crew","DC United","Houston Dynamo","Minnesota United",
   "Real Salt Lake","San Jose Earthquakes","Sporting Kansas City",
   "Vancouver Whitecaps","Montreal","St Louis City","San Diego FC",
-  // Liga Profesional Argentina
+  // Liga Profesional
   "Boca Juniors","River Plate","Racing Club","Independiente","San Lorenzo",
   "Estudiantes","Lanus","Velez Sarsfield","Tigre","Huracan","Banfield",
   "Godoy Cruz","Colon","Talleres","Belgrano","Rosario Central",
@@ -63,6 +62,7 @@ const TEAMS_DB = [
 let selected = { team1: null, team2: null };
 let searchTimers = {};
 
+// ── Search ─────────────────────────────────────────────
 async function searchTeam(slot) {
   const raw   = document.getElementById(`search${slot}`).value.trim();
   const query = raw.toLowerCase();
@@ -87,7 +87,6 @@ async function searchTeam(slot) {
       btn.onclick = () => fetchAndSelect(slot, name, btn, grid);
       grid.appendChild(btn);
 
-      // Carrega logo em background
       fetch(API + encodeURIComponent(name))
         .then(r => r.json())
         .then(data => {
@@ -102,35 +101,6 @@ async function searchTeam(slot) {
     status.textContent = "Buscando...";
     searchTimers[slot] = setTimeout(() => fetchFromAPI(slot, raw, grid, status), 500);
   }
-}
-
-function renderLocalResults(slot, names, grid) {
-  grid.innerHTML = "";
-  names.forEach(name => {
-    const btn = document.createElement("button");
-    btn.className = "team-btn loading-team";
-    btn.dataset.name = name;
-    btn.innerHTML = `<span class="team-btn-name">${name}</span>`;
-    btn.onclick = () => fetchAndSelect(slot, name, btn, grid);
-    grid.appendChild(btn);
-  });
-
-  // Carrega logos em background
-  names.forEach(async name => {
-    try {
-      const res  = await fetch(API + encodeURIComponent(name));
-      const data = await res.json();
-      if (data.teams && data.teams[0] && data.teams[0].strBadge) {
-        const badge = data.teams[0].strBadge;
-        const logoUrl = `/api/search?img=${encodeURIComponent(badge)}`;
-        const btn = grid.querySelector(`[data-name="${CSS.escape(name)}"]`);
-        if (btn) {
-          btn.innerHTML = `<img src="${logoUrl}" alt="${name}" onerror="this.style.display='none'" />${name}`;
-          btn.onclick = () => selectTeam(slot, { name, logo: logoUrl }, btn, grid);
-        }
-      }
-    } catch {}
-  });
 }
 
 async function fetchFromAPI(slot, query, grid, status) {
@@ -188,6 +158,7 @@ function selectTeam(slot, team, btnEl, grid) {
   if (selected.team1 && selected.team2) { btn.disabled = false; btn.classList.add("ready"); }
 }
 
+// ── Live Preview ───────────────────────────────────────
 function updateLivePreview(slot, team) {
   const logo        = document.getElementById(`liveLogo${slot}`);
   const placeholder = document.getElementById(`livePlaceholder${slot}`);
@@ -211,6 +182,7 @@ function updateLivePreview(slot, team) {
   }
 }
 
+// ── Image generation ───────────────────────────────────
 function loadImage(src) {
   return new Promise(resolve => {
     const img = new Image();
@@ -281,6 +253,79 @@ function downloadImage() {
   link.click();
 }
 
+// ── Fixtures ───────────────────────────────────────────
+async function loadFixtures() {
+  const list = document.getElementById("fixturesList");
+  list.innerHTML = `<div class="fixtures-loading">Carregando jogos...</div>`;
+
+  try {
+    const res  = await fetch("/api/fixtures");
+    const data = await res.json();
+    const matches = data.matches || [];
+
+    if (matches.length === 0) {
+      list.innerHTML = `<div class="fixtures-loading">Nenhum jogo encontrado para hoje</div>`;
+      return;
+    }
+
+    list.innerHTML = "";
+
+    const grouped = {};
+    matches.forEach(m => {
+      const key = m.competition;
+      if (!grouped[key]) grouped[key] = { emblem: m.emblem, matches: [] };
+      grouped[key].matches.push(m);
+    });
+
+    Object.entries(grouped).forEach(([comp, { emblem, matches }]) => {
+      const header = document.createElement("div");
+      header.className = "fixture-league-header";
+      header.innerHTML = `
+        ${emblem ? `<img src="${emblem}" alt="${comp}" />` : ""}
+        <span>${comp}</span>
+      `;
+      list.appendChild(header);
+
+      matches.forEach(m => {
+        const utc    = new Date(m.utcDate);
+        const time   = utc.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", timeZone: "America/Sao_Paulo" });
+        const isLive = m.status === "IN_PLAY" || m.status === "PAUSED";
+        const isDone = m.status === "FINISHED";
+        const score  = isDone || isLive
+          ? `${m.score?.home ?? 0} - ${m.score?.away ?? 0}`
+          : time;
+
+        const item = document.createElement("div");
+        item.className = "fixture-item";
+        item.innerHTML = `
+          <div class="fixture-teams">
+            ${m.home.crest ? `<img src="${m.home.crest}" alt="${m.home.name}" class="fixture-crest" />` : ""}
+            <span>${m.home.name}</span>
+            <span class="fixture-vs">vs</span>
+            <span>${m.away.name}</span>
+            ${m.away.crest ? `<img src="${m.away.crest}" alt="${m.away.name}" class="fixture-crest" />` : ""}
+          </div>
+          <span class="fixture-score ${isLive ? "live" : ""}">${score}</span>
+          <button class="fixture-use-btn" onclick="useFixture('${m.home.name.replace(/'/g,"\\'")}','${m.away.name.replace(/'/g,"\\'")}')">Usar</button>
+        `;
+        list.appendChild(item);
+      });
+    });
+
+  } catch (e) {
+    list.innerHTML = `<div class="fixtures-loading">Erro ao carregar jogos</div>`;
+  }
+}
+
+async function useFixture(home, away) {
+  document.getElementById("search1").value = home;
+  document.getElementById("search2").value = away;
+  searchTeam(1);
+  searchTeam(2);
+  document.getElementById("search1").scrollIntoView({ behavior: "smooth" });
+}
+
+// ── Tools panel ────────────────────────────────────────
 function toggleTools() {
   const panel = document.getElementById("toolsPanel");
   panel.classList.toggle("open");
@@ -295,3 +340,6 @@ function toggleTools() {
     }, 0);
   }
 }
+
+// ── Init ───────────────────────────────────────────────
+loadFixtures();
