@@ -1,8 +1,14 @@
 export default async function handler(req, res) {
+  // Formato da data: YYYYMMDD
+  const now   = new Date();
+  const year  = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day   = String(now.getDate()).padStart(2, "0");
+  const today = `${year}${month}${day}`;
+
   try {
-    // Busca jogos ao vivo
     const response = await fetch(
-      `https://free-api-live-football-data.p.rapidapi.com/football-current-live`,
+      `https://free-api-live-football-data.p.rapidapi.com/football-get-matches-by-date?date=${today}`,
       {
         headers: {
           "x-rapidapi-host": "free-api-live-football-data.p.rapidapi.com",
@@ -17,7 +23,7 @@ export default async function handler(req, res) {
 
     const data = await response.json();
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Cache-Control", "s-maxage=60");
+    res.setHeader("Cache-Control", "s-maxage=300");
     res.status(200).json(data);
   } catch (e) {
     res.status(500).json({ error: e.message });
