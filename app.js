@@ -258,7 +258,7 @@ async function loadFixtures() {
     Object.entries(grouped).forEach(([comp, { emblem, matches }]) => {
       const header = document.createElement("div");
       header.className = "fixture-league-header";
-      header.innerHTML = `${emblem ? `<img src="${emblem}" alt="${comp}" />` : ""}<span>${comp}</span>`;
+      header.innerHTML = `<span>${comp}</span>`;
       list.appendChild(header);
 
       matches.forEach(m => {
@@ -273,13 +273,11 @@ async function loadFixtures() {
         item.className = "fixture-item";
         item.innerHTML = `
           <span class="fixture-status">${dot}</span>
-          <div class="fixture-crest-wrap">${m.home.crest ? `<img src="${m.home.crest}" class="fixture-crest" />` : ""}</div>
           <div class="fixture-teams">
             <span class="fixture-team-name">${m.home.name}</span>
             <span class="fixture-vs">vs</span>
             <span class="fixture-team-name">${m.away.name}</span>
           </div>
-          <div class="fixture-crest-wrap">${m.away.crest ? `<img src="${m.away.crest}" class="fixture-crest" />` : ""}</div>
           <span class="fixture-score ${isLive ? "live" : ""}">${score}</span>
           <button class="fixture-use-btn" onclick="useFixture('${m.home.name.replace(/'/g,"\\'")}','${m.away.name.replace(/'/g,"\\'")}')">Usar</button>
         `;
