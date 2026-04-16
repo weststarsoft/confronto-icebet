@@ -456,20 +456,15 @@ async function loadFixtures() {
         const score  = isDone || isLive ? `${m.score?.home ?? 0} - ${m.score?.away ?? 0}` : label;
         const dot    = isLive ? "🔴" : "⏰";
 
-        const homeLogo = getLocalLogo(m.home.name);
-        const awayLogo = getLocalLogo(m.away.name);
-
         const item = document.createElement("div");
         item.className = "fixture-item";
         item.innerHTML = `
           <span class="fixture-status">${dot}</span>
-          <div class="fixture-crest-wrap">${homeLogo ? `<img src="${homeLogo}" class="fixture-crest" />` : ""}</div>
           <div class="fixture-teams">
             <span class="fixture-team-name">${m.home.name}</span>
             <span class="fixture-vs">vs</span>
             <span class="fixture-team-name">${m.away.name}</span>
           </div>
-          <div class="fixture-crest-wrap">${awayLogo ? `<img src="${awayLogo}" class="fixture-crest" />` : ""}</div>
           <span class="fixture-score ${isLive ? "live" : ""}">${score}</span>
           <button class="fixture-use-btn" onclick="useFixture('${m.home.name.replace(/'/g,"\\'")}','${m.away.name.replace(/'/g,"\\'")}')">Usar</button>
         `;
